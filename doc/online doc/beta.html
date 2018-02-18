@@ -1,0 +1,72 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Footleg's Cave Converter</title>
+</head>
+
+<body font size="4" color="#000000" style="font-family: Arial">
+
+<h1>Cave Converter</h1>
+<h3>Version: 20131016-beta</h3>
+<p>The latest development on Cave Converter has added a number of useful new features. Extensive testing has already uncovered a number of bugs in the new code, 
+all of which have been fixed. But with the number of bugs uncovered with the available test data this beta release has been put out to enable testing with a 
+broader range of data from other users to see if any more issues can be shaken out before a new stable release is put out. 
+</p><p>
+Download the latest beta here: <a href="http://wscc.darkgem.com/caveconverter/releases/CaveConverter-rel20131016~beta.zip">CaveConverter-rel20131016~beta.zip</a>
+</p>
+<table border="1" width="60%"><tr><td>
+Cave Converter is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+</p><p>
+Cave Converter is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+<a href="http://www.gnu.org/licenses/">GNU General Public License</a> for more details.
+</td></tr></table>
+<p>
+The beta release along with older releases can be downloaded from the <a href="http://wscc.darkgem.com/caveconverter/releases">release archive</a> page.
+</p><p>
+All known bugs have been fixed in this beta release.
+</p><p>
+Details of all the new features can be found on the beta release change log file in the download, and the new feature instructions are in the readme.html file in the download also. But here is an overview of what is new illustrated with some pictures:
+</p><p>
+The original approach to reading splay legs from PocketTopo files in Cave Converter was to treat them as just a way of measuring passage dimensions as Left, Right, Up, Down measurements at each station. So when no more than four splays were found at a station the code used their lengths as LRUD measurements and removed the splays from the data in the process. This kept Survex models looking like they used to before we started measuring lots of splays. But as my own surveying experience increased over recent years I realised that splays are a much more useful tool than just a way to take LRUD measurements. With a DistoX the splays can quickly and accurately be fired from stations to pick out key features and passage shapes at corners and in chambers. These splays aid drawing the correct position of walls, ceiling and floor as well as passage features. They are valuable data which should not be replaced with LRUD passage dimension data. LRUD data still has value. A number of file formats support LRUD data to represent the position of passage walls at each station, and 3D model generation uses this data. But the splays should still be kept when generating LRUD data from them. The latest Aven viewer (part of the Survex 1.2.7 release) and the Loch Viewer (part of Therion) now both allow splay legs to be shown or hidden. So it is possible to view centreline only models without actually removing the splays from the data.
+</p><p>
+So this latest version of Cave Converter no longer removes splay legs used to generate LRUD measurements. The LRUD generation code has also been completely rewritten and made part of the core data model rather than an operation done during reading of PocketTopo files. This means it is now possible to generate LRUD data from splays in any data file which can be read. Unfortunately for those of you who used Cave Converter in the past to convert PocketTopo data to Survex format it will have removed a lot of the splays, so you will want to convert from the original PocketTopo exported text files again with this version. The LRUD generation does a much better job of selecting the best splay to determine a passage dimension measurement from in this version of the code. The splay which contributes the greatest distance of the wall/ceiling/floor from the station is used to calculate the distance to the wall. Previous versions of the code just used the total length of the best splay, rather than the distance in the direction of the LRUD measurement being set. This was flawed and splays almost parallel to a survey leg could generate much larger passage dimension measurements than was appropriate. Now trigonometry is used to determine the appropriate distance in the direction of the passage dimension, and the direction for the left and right measurements is calculated from the best matching previous leg as well as the onward leg from the station.
+</p><p>
+The conversion of Survex data (containing splays) to Toporobot format in order to import existing survey data into PocketTopo to extend off on new survey trips can now generate and output LRUD data too. PocketTopo will display this data as splays orthogonal to the direction of the survey legs to indicate passage width and height. Note that Cave Converter does not yet read passage data back in from Survex files. So unless you have all the splays in a Survex file you will lose the LRUD data if you read in a Survex file and output it again in the same or another format.
+</p><p>
+Another bug bear of previous versions of Cave Converter was that LRUD data was output in Survex files as one continuous block of stations with LRUD data regardless of how the stations were connected by survey legs. This has now been fixed so the survey legs in each series are used to determine the grouping of passage data stations into blocks of connected stations. The following screenshots of a model in Aven for the same survey data using previous and the latest versions of Cave Converter illustrate the improved passage data generation.
+</p><p align="center">
+<img src="SwildonsEntOld.png"/><br/>Model generated from PocketTopo survey using previous version of Cave Converter
+</p><p align="center">
+<img src="SwildonsEntNew.png"/><br/>Model generated from PocketTopo survey using latest version of Cave Converter
+</p>
+
+
+<br>
+Last updated:
+<br>
+16th October 2013
+<br>
+<table align="right"><tr><td>
+<div id="eXTReMe"><a href="http://extremetracking.com/open?login=caveconv">
+<img src="http://t1.extreme-dm.com/i.gif" style="border: 0;"
+height="38" width="41" id="EXim" alt="eXTReMe Tracker" /></a>
+<script type="text/javascript"><!--
+var EXlogin='caveconv' // Login
+var EXvsrv='s11' // VServer
+EXs=screen;EXw=EXs.width;navigator.appName!="Netscape"?
+EXb=EXs.colorDepth:EXb=EXs.pixelDepth;EXsrc="src";
+navigator.javaEnabled()==1?EXjv="y":EXjv="n";
+EXd=document;EXw?"":EXw="na";EXb?"":EXb="na";
+EXd.write("<img "+EXsrc+"=http://e2.extreme-dm.com",
+"/"+EXvsrv+".g?login="+EXlogin+"&amp;",
+"jv="+EXjv+"&amp;j=y&amp;srw="+EXw+"&amp;srb="+EXb+"&amp;",
+"l="+escape(parent.document.referrer)+" height=1 width=1>");//-->
+</script><noscript><div id="neXTReMe"><img height="1" width="1" alt=""
+src="http://e2.extreme-dm.com/s11.g?login=caveconv&amp;j=n&amp;jv=n" />
+</div></noscript></div>
+</td></tr></table>
+</body>

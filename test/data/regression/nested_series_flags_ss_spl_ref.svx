@@ -1,0 +1,23 @@
+*BEGIN nested_series_flags
+
+*EQUATE 2 inner.2
+*EQUATE 3 inner.3
+*EQUATE 2 inner.2
+
+1	2	 9.08	189.31	 -7.43
+*FLAGS SPLAY
+2	2a	 7.47	208.36	-11.11
+3	3a	 2.10	353.60	  5.03
+3	3b	 8.88	190.22	  4.19
+*FLAGS NOT SPLAY
+3	4	 3.94	109.34	  5.39
+*BEGIN inner
+
+
+*FLAGS SPLAY
+2	2b	 8.06	 39.11	 14.74
+*FLAGS NOT SPLAY
+2	3	18.55	116.98	 -0.10
+*END inner
+
+*END nested_series_flags

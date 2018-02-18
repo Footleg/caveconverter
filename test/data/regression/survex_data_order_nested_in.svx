@@ -1,0 +1,23 @@
+*begin data_order_nested
+*data normal from to compass tape clino
+
+*equate first.3 second.1 
+*equate second.3 third.1 
+
+*begin first
+1 2 050 9.45 0
+2 3 045 4.51 -2
+*end first
+
+*begin second
+*data normal from to compass clino tape
+1 2 062 -1 7.35
+2 3 014 0 11.65
+*end second
+
+*begin third
+1 2 055 2.63 -3
+2 3 063 7.72 6
+*end third
+
+*end data_order_nested

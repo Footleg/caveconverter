@@ -1,0 +1,12 @@
+*BEGIN nosurveyleg
+
+
+*data normal from to length bearing gradient
+1	2	 5.75	338.00	-15.00
+2	3	 3.03	274.00	 -8.00
+*data nosurvey from to
+3	5
+*data normal from to length bearing gradient
+3	4	 8.12	280.00	 12.00
+4	5	 9.89	345.00	 -4.00
+*END nosurveyleg

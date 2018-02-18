@@ -1,0 +1,42 @@
+*BEGIN survex_everything
+
+*alias station - ..
+
+*EQUATE Ent aliased_splays.1
+*EQUATE aliased_splays.3 diving_tape_comp_depc.1
+*EQUATE diving_tape_comp_depc.3 diving_bearing_length.001
+
+*BEGIN aliased_splays
+
+*alias station - ..
+
+
+1	2	12.21	 73.00	-12.00
+2	-	 4.33	 11.00	  2.00
+2	-	 1.64	180.00	  3.00
+2	3	 6.77	 98.00	 -4.00
+*END aliased_splays
+
+*BEGIN diving_tape_comp_depc
+
+*alias station - ..
+
+
+*data diving from to length bearing depthchange
+1	2	14.70	 50.00	-1.70
+2	3	 5.78	 65.00	-0.51
+*END diving_tape_comp_depc
+
+*BEGIN diving_bearing_length
+*DATE 1999.07.01
+*CALIBRATE declination 4.34
+
+*alias station - ..
+
+
+*data diving from to bearing length fromdepth todepth
+001	002	336.00	 9.00	-8.30	-8.30
+002	003	285.00	13.00	-8.30	-9.21
+*END diving_bearing_length
+
+*END survex_everything

@@ -1,0 +1,131 @@
+*BEGIN AWKWARDCHARS
+
+*EQUATE ABC_ex.ABC06_am DEF_pl.ABC06_am
+*EQUATE DEF_pl.DEF07_fs GHI_lt.DEF07_fs
+*EQUATE GHI_lt.GHI07_at JKL-.GHI07_at
+*EQUATE JKL-.JKL07- MNO_asc163.JKL07-
+
+*BEGIN ABC_ex
+;My Survey
+
+*DATE 1980.01.23
+*CALIBRATE declination -3.0
+
+
+ABC01_ex	ABC02_dq	 3.66	135.00	  4.00
+ABC02_dq	ABC03_hs	 4.57	130.00	  3.00
+ABC03_hs	ABC04_dl	 5.79	165.00	  2.00
+ABC04_dl	ABC05_pc	 6.71	155.00	  1.00
+ABC05_pc	ABC06_am	 4.27	140.00	  0.00
+ABC06_am	ABC07_am	 4.27	120.00	 -5.00
+
+*data passage station left right up down
+ABC01_ex	 0.00	 0.61	 0.30	 0.15
+ABC02_dq	 0.61	 1.52	 0.61	 0.00
+ABC03_hs	 0.91	 1.22	 0.43	 0.00
+ABC04_dl	 1.83	 0.00	 0.34	 0.00
+ABC05_pc	 1.22	 0.91	 0.15	 0.00
+ABC06_am	 0.91	 0.61	 0.15	 0.67
+*END ABC_ex
+
+*BEGIN DEF_pl
+*DATE 1980.01.24
+*CALIBRATE declination -3.0
+
+
+ABC06_am	DEF01_sq	 3.05	 50.00	  0.00
+DEF01_sq	DEF02_ob	 3.66	 55.00	  4.00
+DEF02_ob	DEF03_cb	 4.57	 50.00	  3.00
+DEF03_cb	DEF04_as	 5.79	 85.00	  2.00
+DEF04_as	DEF05_pl	 6.71	 75.00	  1.00
+DEF05_pl	DEF06_cm	 4.27	 60.00	  0.00
+DEF06_cm	DEF07_fs	 4.27	 40.00	  4.00
+DEF07_fs	DEF08_asc233	 4.27	 50.00	 -5.00
+
+*data passage station left right up down
+ABC06_am	 0.00	 0.00	 0.00	 0.00
+DEF01_sq	 0.00	 0.61	 0.30	 0.15
+DEF02_ob	 0.61	 1.52	 0.61	 0.00
+DEF03_cb	 0.91	 1.22	 0.43	 0.00
+DEF04_as	 1.83	 0.00	 0.34	 0.00
+DEF05_pl	 1.22	 0.91	 0.15	 0.00
+DEF06_cm	 0.00	 0.61	 0.18	 0.06
+DEF07_fs	 0.91	 0.61	 0.15	 0.67
+*END DEF_pl
+
+*BEGIN GHI_lt
+*DATE 1980.01.25
+*CALIBRATE declination -3.0
+
+
+DEF07_fs	GHI01_co	 3.05	 20.00	  0.00
+GHI01_co	GHI02_sc	 3.66	 28.00	  4.00
+GHI02_sc	GHI03_lt	 4.57	 12.00	  3.00
+GHI03_lt	GHI04_eq	 5.79	 18.00	  2.00
+GHI04_eq	GHI05_gt	 6.71	 29.00	  1.00
+GHI05_gt	GHI06_qm	 4.27	 11.00	  0.00
+GHI06_qm	GHI07_at	 4.88	  8.00	  0.50
+GHI07_at	GHI08_asc243	 3.05	 14.00	 -5.00
+
+*data passage station left right up down
+DEF07_fs	 0.00	 0.00	 0.00	 0.00
+GHI01_co	 0.00	 0.61	 0.30	 0.15
+GHI02_sc	 0.61	 1.52	 0.61	 0.00
+GHI03_lt	 0.91	 1.22	 0.43	 0.00
+GHI04_eq	 1.83	 0.00	 0.34	 0.00
+GHI05_gt	 1.22	 0.91	 0.15	 0.00
+GHI06_qm	 0.00	 0.61	 0.18	 0.06
+GHI07_at	 0.91	 0.61	 0.15	 0.67
+*END GHI_lt
+
+*BEGIN JKL-
+*DATE 1980.01.26
+*CALIBRATE declination -3.0
+
+
+GHI07_at	JKL01_os	 3.05	320.00	  0.00
+JKL01_os	JKL02_bs	 3.66	328.00	  4.00
+JKL02_bs	JKL03_cs	 4.57	312.00	  3.00
+JKL03_cs	JKL04_ht	 5.79	318.00	  2.00
+JKL04_ht	JKL05_	 6.71	329.00	  1.00
+JKL05_	JKL06_gr	 4.88	322.00	  0.50
+JKL06_gr	JKL07-	 4.27	311.00	  0.00
+JKL07-	JKL08_asc241	 3.05	314.00	 -5.00
+
+*data passage station left right up down
+GHI07_at	 0.00	 0.00	 0.00	 0.00
+JKL01_os	 0.00	 0.61	 0.30	 0.15
+JKL02_bs	 0.61	 1.52	 0.61	 0.00
+JKL03_cs	 0.91	 1.22	 0.43	 0.00
+JKL04_ht	 1.83	 0.00	 0.34	 0.00
+JKL05_	 0.00	 0.61	 0.18	 0.06
+JKL06_gr	 1.22	 0.91	 0.15	 0.00
+JKL07-	 0.91	 0.61	 0.15	 0.67
+*END JKL-
+
+*BEGIN MNO_asc163
+*DATE 1980.01.27
+*CALIBRATE declination -3.0
+
+
+JKL07-	MNO01_oc	 3.05	270.00	  0.00
+MNO01_oc	MNO02_pi	 3.66	278.00	  4.00
+MNO02_pi	MNO03_cc	 4.57	262.00	  3.00
+MNO03_cc	MNO04_ti	 5.79	268.00	  2.00
+MNO04_ti	MNO05_asc172	 6.71	279.00	  1.00
+MNO05_asc172	MNO06_asc163	 4.27	272.00	  0.50
+MNO06_asc163	MNO07_asc180	 4.27	261.00	  0.00
+MNO07_asc180	MNO08_asc169	 3.05	264.00	 -5.00
+
+*data passage station left right up down
+JKL07-	 0.00	 0.00	 0.00	 0.00
+MNO01_oc	 0.00	 0.61	 0.30	 0.15
+MNO02_pi	 0.61	 1.52	 0.61	 0.00
+MNO03_cc	 0.91	 1.22	 0.43	 0.00
+MNO04_ti	 1.83	 0.00	 0.34	 0.00
+MNO05_asc172	 0.00	 0.61	 0.18	 0.06
+MNO06_asc163	 1.22	 0.91	 0.15	 0.00
+MNO07_asc180	 0.91	 0.61	 0.15	 0.67
+*END MNO_asc163
+
+*END AWKWARDCHARS

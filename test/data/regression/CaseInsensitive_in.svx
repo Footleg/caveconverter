@@ -1,0 +1,24 @@
+*BEGIN CaseInsensitiveTest
+
+*equate Entrance.819 DownStream.755
+
+*BEGIN Entrance
+
+814	815	1.50	63.80	-2	;*
+815	816	3.00	-	down	;*
+816	817	8.50	19.80	7	;*
+817	818	15.70	85.80	-2	;*
+818	819	2.10	355.80	-10	;*
+*END Entrance
+
+*BEGIN Downstream
+
+750	751	9.70	117.65	4	;*
+751	752	8.60	106.65	-2	;*
+752	753	6.90	209.65	5	;*
+753	754	9.60	108.65	0	;*
+754	755	20.00	110.65	2	;Stn 755=20 Junction with Entrance inlet
+
+*END Downstream
+
+*END CaseInsensitiveTest

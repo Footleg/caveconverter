@@ -1,0 +1,57 @@
+*BEGIN FootlegCalTest
+
+*EQUATE Footleg1.2 Footleg2.2
+*EQUATE Footleg2.3 Footleg3.3
+*EQUATE Footleg3.4 Footleg4.4
+
+*BEGIN Footleg1
+*DATE 2014.02.13
+*CALIBRATE declination -30.0
+
+
+1	2	 8.00	 15.00	  0.00
+2	2a	10.00	285.00	  0.00
+
+*data passage station left right up down
+1	 0.30	 0.91	 0.61	 1.22
+2	 1.22	 0.61	 0.91	 0.30
+*END Footleg1
+
+*BEGIN Footleg2
+*DATE 2014.02.14
+*CALIBRATE declination -45.0
+*CALIBRATE tape 0.50
+*CALIBRATE compass 10.0
+
+
+2	3	10.50	100.00	 36.87
+3	3a	10.00	 10.00	  0.00
+
+*data passage station left right up down
+2	 0.30	 0.91	 0.61	 1.22
+3	 1.22	 0.61	 0.91	 0.30
+*END Footleg2
+
+*BEGIN Footleg3
+*DATE 2014.02.14
+*CALIBRATE declination 10.0
+*CALIBRATE tape -2.00
+*CALIBRATE compass 25.0
+*CALIBRATE clino 8.0
+
+
+3	4	 8.00	260.00	-28.87
+*END Footleg3
+
+*BEGIN Footleg4
+*DATE 2014.03.31
+*CALIBRATE declination 15.0
+*CALIBRATE tape 4.00
+*CALIBRATE compass -7.0
+*CALIBRATE clino -10.0
+
+
+4	5	14.00	143.00	-46.87
+*END Footleg4
+
+*END FootlegCalTest

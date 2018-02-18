@@ -1,0 +1,47 @@
+FootlegCalTest
+SURVEY NAME: Footleg1
+SURVEY DATE: 2 13 2014 COMMENT:
+SURVEY TEAM:
+
+DECLINATION: 30.00  FORMAT: DMMDLRUDLADNF  CORRECTIONS: 0.00 0.00 0.00 CORRECTIONS2: 0.00 0.00
+
+        FROM           TO  LENGTH BEARING     INC    LEFT      UP    DOWN   RIGHT   FLAGS COMMENTS
+
+           1            2   26.25   15.00    0.00    1.00    2.00    4.00    3.00         
+           2           2a   32.80  285.00    0.00    4.00    3.00    1.00    2.00         
+
+FootlegCalTest
+SURVEY NAME: Footleg2
+SURVEY DATE: 2 14 2014 COMMENT:
+SURVEY TEAM:
+
+DECLINATION: 45.00  FORMAT: DMMDLRUDLADNF  CORRECTIONS: -10.00 0.00 -1.64 CORRECTIONS2: -10.00 0.00
+
+        FROM           TO  LENGTH BEARING     INC    LEFT      UP    DOWN   RIGHT   FLAGS COMMENTS
+
+           2            3   34.45  100.00   36.87    1.00    2.00    4.00    3.00         
+           3           3a   32.80  010.00    0.00    4.00    3.00    1.00    2.00         
+
+FootlegCalTest
+SURVEY NAME: Footleg3
+SURVEY DATE: 2 14 2014 COMMENT:
+SURVEY TEAM:
+
+DECLINATION: -10.00  FORMAT: DMMDLRUDLADNF  CORRECTIONS: -25.00 -8.00 6.56 CORRECTIONS2: -25.00 -8.00
+
+        FROM           TO  LENGTH BEARING     INC    LEFT      UP    DOWN   RIGHT   FLAGS COMMENTS
+
+           3            4   26.25  260.00  -28.87    1.00    2.00    4.00    3.00         
+
+FootlegCalTest
+SURVEY NAME: Footleg4
+SURVEY DATE: 3 31 2014 COMMENT:
+SURVEY TEAM:
+
+DECLINATION: -15.00  FORMAT: DMMDLRUDLADNF  CORRECTIONS: 7.00 10.00 -13.12 CORRECTIONS2: 7.00 10.00
+
+        FROM           TO  LENGTH BEARING     INC    LEFT      UP    DOWN   RIGHT   FLAGS COMMENTS
+
+           4            5   45.93  143.00  -46.87    1.00    2.00    4.00    3.00         
+
+

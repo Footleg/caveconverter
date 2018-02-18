@@ -1,0 +1,152 @@
+*begin units
+
+*EQUATE tapefeet.5 lengthyards.5
+*EQUATE lengthyards.10 compclinodeg.10
+*EQUATE compclinodeg.15 compgrads.15
+*EQUATE compgrads.20 clinpercentage.20
+*EQUATE clinpercentage.25 compminclinperc.25
+*EQUATE compminclinperc.30 compdeg.30
+*EQUATE compdeg.35 clindeg.35
+*EQUATE clindeg.40 compmilsclimmintapem.40
+*EQUATE compmilsclimmintapem.45 tapemetcompclindeg.45
+*EQUATE tapemetcompclindeg.50 lenmcompclinmils.50
+*EQUATE lenmcompclinmils.55 lenybeardeggradgrads.55
+*EQUATE lenybeardeggradgrads.60 lenmcompclindegs.60
+*EQUATE lenmcompclindegs.65 tapeYcompDegGradMils.65
+
+*begin tapefeet
+*units tape feet
+1	2	 3.64	 54.96	 -0.43
+2	3	 5.51	118.65	  3.60
+3	4	 4.92	124.12	  0.26
+4	5	 7.41	 75.30	 -0.34
+*end tapefeet
+
+*begin lengthyards
+*units length yards
+5	6	 7.12	126.62	 -0.65
+6	7	 9.23	 70.15	  1.17
+7	8	 4.74	110.68	 -2.15
+8	9	 3.72	161.27	 -2.79
+9	10	 2.91	154.27	  1.80
+*end lengthyards
+
+*begin compclinodeg
+*units compass gradient degrees
+10	11	 4.42	247.67	  1.30
+11	12	 7.75	174.50	  1.95
+12	13	 6.87	205.58	 -1.32
+13	14	 2.80	 93.80	  1.73
+14	15	 4.88	189.66	 -0.48
+*end compclinodeg
+
+*begin compgrads
+*units compass grads
+15	16	 8.98	155.44	 -0.29
+16	17	 2.42	250.17	 -3.33
+16	18	 7.14	225.20	 -2.03
+18	19	 5.34	249.23	 -6.95
+19	20	 6.80	229.51	 -0.03
+*end compgrads
+
+*begin clinpercentage
+*units clino percentage
+20	21	 8.87	323.99	 50.05
+21	22	 6.17	262.88	 23.76
+22	23	 8.38	 77.91	  4.11
+23	24	 5.17	129.84	 36.43
+24	25	 4.71	106.94	  4.50
+*end clinpercentage
+
+*begin compminclinperc
+*units compass minutes
+*units clino percent
+25	26	 3.05	 31.79	 67.38
+26	27	 2.59	312.75	 40.83
+27	28	 5.56	 67.52	 17.08
+28	29	 4.90	 28.80	 73.06
+29	30	 7.64	 64.75	 41.19
+*end compminclinperc
+
+*begin compdeg
+*units compass degREEs
+30	31	 5.73	357.61	  5.39
+31	32	 6.85	321.98	 -0.03
+32	33	 1.47	359.42	 15.89
+33	34	 5.44	112.14	  2.87
+34	35	 3.81	112.46	  4.11
+*end compdeg
+
+*begin clindeg
+*units clino degRees
+35	36	 0.82	116.06	 36.00
+35	37	 4.26	170.83	 28.04
+37	38	 1.96	213.05	 33.22
+38	39	 0.61	281.22	 51.89
+39	40	16.80	242.61	 10.51
+*end clindeg
+
+*begin compmilsclimmintapem
+*units compass mils
+*units clino minutes
+*units tape meters
+40	41	 1.54	156.92	 21.03
+41	42	 1.23	188.42	 54.13
+42	43	 7.82	271.86	-10.72
+43	44	 1.58	135.83	-54.76
+44	45	 4.22	283.16	 -3.82
+*end compmilsclimmintapem
+
+*begin tapemetcompclindeg
+*units tape metric
+*units compass DegRees
+*units clino DEGS
+45	47	 4.08	278.14	-22.89
+47	48	 1.62	127.59	  7.41
+48	49	 2.40	265.00	  1.41
+49	50	 2.06	297.62	 28.08
+*end tapemetcompclindeg
+
+*begin lenmcompclinmils
+*units length metres
+*units bearing clino Mils
+50	51	 2.38	317.24	 16.74
+51	52	 2.80	335.01	 -5.36
+52	53	 8.00	 77.58	 95.81
+53	54	 2.99	251.79	-11.14
+54	55	 2.75	287.69	-14.31
+*end lenmcompclinmils
+
+*begin lenybeardeggradgrads
+*units length mETric
+*units bearing DEGs
+*units gradient GRADS
+55	56	 6.04	280.29	-11.16
+56	57	 4.72	167.79	-69.81
+57	58	 6.26	266.27	  3.98
+58	59	 5.34	221.34	-28.43
+59	60	 3.64	249.87	-18.27
+*end lenybeardeggradgrads
+
+*begin lenmcompclindegs
+*units length MeTErS
+*units bearing gradient DeGs
+60	61	 3.32	 25.03	-14.33
+61	62	 5.70	255.27	-30.20
+62	63	 3.09	201.53	-10.26
+63	64	 4.55	164.72	-15.91
+64	65	 2.38	199.29	-26.79
+*end lenmcompclindegs
+
+*begin tapeYcompDegGradMils
+*units tape YaRdS
+*units compass DeGs
+*units gradient MiLs
+65	66	 6.29	239.56	 -9.79
+66	67	 7.66	284.16	 -7.14
+67	68	 2.58	224.20	 -8.54
+68	69	 6.80	205.89	 -6.51
+69	70	 2.09	108.56	 -5.31
+*end tapeYcompDegGradMils
+
+*end units

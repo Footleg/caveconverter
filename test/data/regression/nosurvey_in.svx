@@ -1,0 +1,13 @@
+*begin nosurveyleg
+
+1	2	5.75	338	-15
+2	3	3.03	274	-8
+
+*data nosurvey from to 
+3  5   ; leg across deep pool in main streamway that was walked round 
+
+*data normal from to tape compass clino
+3	4	8.12	280	+12
+4	5	9.89	345	-4
+
+*end nosurveyleg

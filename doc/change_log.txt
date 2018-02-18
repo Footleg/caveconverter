@@ -1,0 +1,150 @@
+Cave Converter Change Log
+-------------------------
+14 Jan 2017
+- Added option to save splays with anonymous 'to stations' in Survex format.
+- Added support for diving data to the data model, Survex reader and Survex writer.
+- Added support for multifile Survex project reading
+- Added support for nosurvey legs to the data model, Survex reader and Survex writer.
+- Added support for anonymous begin/end blocks in the Survex reader.
+- Fixed bug where flags set inside a child series were applied to data read in the parent series 
+  after ending the child series.
+- Changed Survex reader to allow spaces between '*' and keywords in, as Survex allows this.
+- Added support for different units of measure to bearings and clino values in the data model and 
+  Survex reader.
+- Removed dependency on JScience.org libraries by implementing units conversion methods and updating 
+  the model interface to handle units for lengths and angles.
+- Updated dependency version of Cobertura to 2.1.1 (and removed seperate junit dependency as Cobertura
+  includes junit 4.11 libraries in the distribution).
+14 Oct 2015
+- Added a graphical application interface to the converter. Now it can be run as a desktop application
+  making it easier to browse for files, convert them and save the converted data to files.
+- Added the option to specify the characterset encoding to use when reading and writing files. This can
+  be specified in the app.properties file for the Windowed application, or as a command line parameter.
+- Improved the way that LRUD data is stored in a survey series in the data model. This resulted in some
+  slight differences in the way the conversion to Survex format generates passage data blocks from the 
+  LRUD data. In my test data this was an improvement in all cases, and fixed one case where it turned 
+  out the old code was swapping left and right passage dimensions in the output compared to the splays
+  which the LRUD data was generated from.
+20 May 2014
+- Updated regressions tests so that they passed on JRE8 following a double rounding bug fix
+  in the JRE. Backwards compatibility with JRE6 and 7 is retained by using older versions of
+  regression output reference files (indicated by the _ref7 suffix on the file names).
+12 Apr. 2014
+- Adopted JScience.org libraries for handling measurements, and implemented length measurements 
+  as unitised lengths rather than plain decimal values.
+- Added support for reading Compass format survey data files.
+- Added substitution of illegal characters in series and station names to Survex format output.
+  Compass files allow various punctuation characters in series and station names, which are not
+  allowed in Survex format data files. These will be substituted by an underscore character followed
+  by a two letter code indicating the character which was substituted (e.g. '!' becomes '_ex').
+- Fixed case sensitivity bug in Toborobot file generation which left series unlinked if series or
+  station names did not have identical case.
+17 Nov. 2013 (beta)
+- Fixed a bug in LRUD data generation which caused LRUD data at stations only appearing as the 'to
+  station' in a pair of legs to be calculated using the bearing of only one of the two legs 
+  (i.e. When two legs are measured to the same station as typically happens when the instruments 
+  are read at alternate stations 'leap frogging' stations).
+- Fixed a bug in Survex Writer passage data block generation which meant it could get the left and
+  right measurements reversed when the first leg in a block is in a forward direction but the second
+  leg is in reverse.
+16 Oct. 2013 (beta)
+- Fixed bugs in Survex Writer passage data block generation which meant it only generated sensible
+  data if all survey legs were measured in the direction the survey was travelling. Now legs measured
+  in the reverse direction are handled, and legs do not have immediately follow from the previous 
+  'to' station of the last leg for the passage data to be structured sensibly.
+- Fixed bug in PocketTopo parser which repeated the station name given to the 'to' station for a splay
+  leg when the splays were not all located together in the survey.
+21 Sep. 2013 (beta)
+- Moved code to generate LRUD (left, right, up, down) passage dimensions from the PocketTopo parser 
+  into the Survey Series class.
+- Added additional command line options: 
+  - splays/nosplays: Survex writer and Toporobot writer now have option to not output splays.
+  - lrud: Option to generate LRUD data from splays (can be used on any conversion).
+- Added rounding of LRUD values to 2 decimal places in Survex file writer.
+- Changed LRUD generation to better select the best splay for each dimension, and to calculate 
+  the distance for the LRUD dimensions based on the angle of the splay to the passage direction
+  instead of using the total length of the splay. The splay selected when there is a choice is now
+  the splay giving the biggest dimension in the direction of the LRUD measurement rather than using
+  the splay closest to the compass bearing of the passage dimension measurement direction. Passage 
+  direction is now calculated from the average bearing of the forward leg and the previous leg 
+  arriving at the station. When more than two legs join at a station then the previous leg will be
+  the one with the closest bearing to the bearing of the onward leg.
+- Splays fired as back shots are now excluded from LRUD generation.
+- Splays are no longer removed from the output when used to generate LRUD dimensions.
+- The Survex writer now groups passage data from LRUD dimensions into blocks of readings corresponding
+  to the survey legs in the file (previously one block of passage data was output per series with all
+  stations listed with no respect for their connectivity).
+- Fixed bug where compass calibration was used instead of declination calibration in PocketTopo parser, 
+  Survex parser and Survex writer.
+- Added duplicate and surface flags to leg class, and added reading of flags to Survex parser and writing 
+  them to Survex writer.
+- Added date reading to Survex parser.
+- Fixed bug in utility function to calculate the average of a set of compass bearings (thanks to Peter Kellaway
+  for pointing me to a much more robust and elegant solution). This bug does not affect the use of the function
+  in previous versions (where it was only used to convert PocketTopo triple leg readings into one average leg)
+  but it did show up in the new LRUD generation code when calculating the average bearing of two legs either
+  side of a station when the passage went round a sharp bend.
+- Fixed bug in Toporobot Writer which caused passage dimensions data to be output on the wrong station
+  (LRUD values for the 'from' station of each leg were being put on the 'to' station of each leg).
+- PocketTopo file reader no longer reorders the splay legs for each station (something which used to happen
+  due to the old code which sorted splays into groups for L,R,U,D measurements in this reader).
+- Made the logging output less verbose, and fixed the survey summary details log output to include inner series.
+16 Mar. 2013
+- Fixed bug in Toporobot writer which left survey series unlinked when two series crossed over
+  each other in the middle of each series (i.e. Not joined at the start or end of either series).
+05 Mar. 2013
+- Added support for nested series in the data model. Survex reader and writer no longer flatten
+  the survey series hierarchy when series are inside other series.
+- Fixed issue where Survex output files put data inside duplicated begin/end blocks.
+- Improved series naming in PocketTopo converted data. Series now have the series number as 
+  their name rather than the full cave name and series number, so the name is not duplicated
+  in the outer series name and inner series names. The outer series name is now the full name
+  from the input file (previously any numbers on the end of the name were removed).
+- PocketTopo converted data links to series not included in the PocketTopo file now use the
+  correct series number and station number for the linked external series instead of dummy data.
+- Toporobot format generation is much faster, and handles more complex cave surveys which
+  could crash the converter in previous versions.
+- Fixed crash in Toporobot writer when converting directly from PocketTopo format.
+
+31 Dec. 2012
+- Major refactoring of internal data model of converter. All code changes are now tested using 
+  an automated test framework to ensure conversions still produce the same output as previous
+  releases of the converter.
+- Renamed main class and jar file to 'CaveConverter' and attempted to use this name consistently
+  in code and documentation.
+- Added support for trip comments in PocketTopo txt export format file reader. Previous versions 
+  threw an error if files contained trip comments.
+- Added support for stations having more than 26 splays. Previous versions generated invalid
+  survey station names in output files for splays when there were more than 26 splays off a 
+  single station. Now the first 26 stations are numbered a-z, then the sequence of generated
+  'to' station names will continue aa, ab, ac .. az, ba, bb, etc.
+- Fixed output file line endings issue where previous versions always generated Unix style line
+  endings. Now files will have the line endings applicable to the platform the converter is
+  being run on. So on Windows the output files will have Windows style line endings.
+
+09 Aug. 2011
+- Changed PocketTopo txt file reader to keep all the splay shots at any station where more 
+  than just a single left, right, up and down dimension was measured. Previously the code
+  picked one of the shots to be converted into an LRUD dimension and only retained the others
+  as splays. Now it retains all of them in case the user did not agree with the one which the
+  code picked as the best match for a passage dimension number. If there is just one splay for
+  each of the left, right, up, down directions then these are converted to LRUD data and no
+  splays are output for that station.
+
+04 Oct. 2010
+- Fixed DXF file reading code to handle a wider range of dxf files. Specifically files that 
+  do not contain either 'Centreline' or 'AcDbEntity' headings in LINE definitions. Now it 
+  will just try to locate the '10', '20', '30' headers in the LINE definition.
+  
+15 Aug. 2010
+- Fixed bug where zero length legs to equate a station with one in a survey series not in the 
+  Pocket Topo txt file being converted would crash the converter if the station in the series 
+  not in the file was the second station in the leg. i.e. When in Pocket Topo you had tied in 
+  to another survey part way along the survey of new passages, or surveyed back from the end
+  point in a new passage to tie in to a known passage at the end of the survey.
+  
+- The Survex writer will now output survey dates so that survex can process the date and 
+  allow the survey to be viewed by date in Aven.
+  
+- The Survex writer will now put SPLAY and NOT SPLAY flags around splay legs so that they do 
+  not get counted in the total length calculated by Survex.

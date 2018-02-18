@@ -1,0 +1,70 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Footleg's Cave Converter - Command Line Reference</title>
+</head>
+
+<body font size="4" color="#000000" style="font-family: Arial">
+
+<h1>Cave Converter - Command Line Reference</h1>
+<h3>Version: 20170114</h3>
+<p>Cave Converter is written in Java and is available as a JAR file. You will need a Java runtime (v6 or later) installed on your computer to run the converter command line tool. The CaveConverter.jar file can be run with the following command line arguments:
+</p>
+<dl><dd> input_filename output_filename input_format_code output_format_code [options]
+</dd></dl>
+<p>The first argument is the name of the file containing the data you want to convert, and second argument is the name of the file you want to be created in the new format. The third and fourth arguments are single letter format codes to indicate the input and output data formats respectively. The format codes are as follows:
+</p>
+<ul><li> c - Compass
+</li><li> d - DXF
+</li><li> p - PocketTopo text export
+</li><li> s - Survex
+</li><li> t - Toporobot
+</li></ul>
+<p>Optionally, any of the following can be specified as additional arguments:
+</p>
+<ul><li> splays - Include splay legs in output file (splays will have named to-stations)
+</li><li> anonsplays - Include splay legs in output file without to-stations (applies to Survex format output only)
+</li><li> nosplays - Exclude splays from the output file
+</li><li> lrud - Generate LRUD passage dimension data from splays
+</li><li> charset (code) - Specify a character set encoding to use for reading and writing files
+</li></ul>
+<p>If no splay option is specified then splays are output by default in Survex files, but are excluded by default from Toporobot files (because Toporobot file export does not distinguish between splays and other legs, all splays exported to this file format become legs). With the anonymous splays option, Survex files will be output using a '-' character for any splays to-station. This will also cause the command '*alias station - ..' to be written into every series in the Survex file. With anonymous to-stations, the splays do not need to be indicated using '*FLAGS SPLAY' in the output.
+</p>
+<p>If no charset option is specified then UTF8 is assumed. Any Java supported characterset code can be specified. e.g. For Windows Latin-1, use Cp1252. Follow this link for a <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html">full list of Java character set codes</a>. You need to specify the correct character set if your input file contains any characters which are not part of the standard alphanumeric+common punctuation set of characters. e.g. accented characters.
+</p>
+<p>Here are some example command lines to illustrate some useful conversions:
+</p>
+<ul><li> To convert existing Survex data into Toporobot format so you can import it into PocketTopo (generating passage dimension data from any splays):
+</li></ul>
+<dl><dd> java -jar CaveConverter.jar survexfile.svx output.text s t lrud
+</dd></dl>
+<ul><li> To convert data exported from PocketTopo into Survex format (and generate passage data blocks from splays):
+</li></ul>
+<dl><dd> java -jar CaveConverter.jar pdaexport.txt survexfile.svx p s lrud
+</dd></dl>
+<ul><li> To convert existing Compass data into Survex format:
+</li></ul>
+<dl><dd> java -jar CaveConverter.jar compassfile.dat survexfileout.svx c s
+</dd></dl>
+<ul><li> To generate LRUD passage data in a Survex file which contains splays:
+</li></ul>
+<dl><dd> java -jar CaveConverter.jar survexfilein.svx survexfileout.svx s s lrud
+</dd></dl>
+<ul><li> To convert splay flags in a Survex file to anonymous splays (e.g. 1    -    12.23  045  -2):
+</li></ul>
+<dl><dd> java -jar CaveConverter.jar survexfilein.svx survexfileout.svx s s anonsplays
+</dd></dl>
+<ul><li> To convert data from DXF format into Toporobot format so you can import it into PocketTopo:
+</li></ul>
+<dl><dd> java -jar CaveConverter.jar datafile.dxf toporobotfileout.text d t
+</dd></dl>
+<ul><li> To convert data from DXF format into Survex format:
+</li></ul>
+<dl><dd> java -jar CaveConverter.jar datafile.dxf survexfile.svx d s
+</dd></dl>
+<p>
+</p><p>Some example Windows batch files are included in the download to illustrate the most useful conversions. You can edit the file names in these batch files to the names of the files you want to convert and then run the converter by double-clicking on the batch file in Windows Explorer. If you don't get any output when running the converter from a batch file then run the program from a command prompt rather than double clicking on a batch file and you will see the errors output. Send me your data file and I will work on a bug fix. I can be contacted by email: <a href="mailto:drfootleg@gmail.com?subject=Cave Converter">drfootleg@gmail.com</a>
+</p><p>
+Return to the <a href="./readme.html">Cave Converter Home Page</a>.
+</p>
+
+</body>

@@ -1,0 +1,45 @@
+*begin survex_everything
+*infer exports on
+*cs out OSGB:ST
+*copyright 1983 CUCC
+
+*entrance Ent
+
+*cs OSGB:ST
+*FIX Ent 53122.3 51308.5 237.3 ;From surface survey using two GPS fixes nearby under open clear sky
+
+*equate Ent aliased_splays.1
+*equate aliased_splays.3 diving_tape_comp_depc.1
+*equate diving_tape_comp_depc.3 diving_bearing_length.001
+
+*begin aliased_splays
+*alias station - ..
+1 2 12.21 073 -12
+2 -  4.33 011 +02
+2 -  1.64 180 +03
+2 3  6.77 098 -04
+*end aliased_splays
+
+
+*begin diving_tape_comp_depc
+*data diving from to tape compass depthchange
+1 2 14.7 50 -1.7
+2 3 5.78 65 -0.51
+*end diving_tape_comp_depc
+
+
+*begin diving_bearing_length
+
+*export 001 ;We're not dealing with exports yet (ever?)
+
+*date 1999.07.01 ;Estimated middle of year this section was surveyed
+*calibrate declination +4.34 ;Based on estimated date ;was +5.17
+
+*data diving from to bearing length fromdepth todepth
+
+001	002	336.0	09.00	-08.30	-08.30	;st001=kh02st073
+002	003	285.0	13.00	-08.30	-09.21
+
+*end diving_bearing_length
+
+*end survex_everything

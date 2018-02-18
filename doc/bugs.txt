@@ -1,0 +1,10 @@
+Cave Converter Bug Tracker
+--------------------------
+20150807-1 Status: OPEN
+The Survex parser throws an index out of bounds error when given a Survex file which only includes *includes and *equates lines.
+
+20151002-1 Status: FIXED 20151005
+The JTree implementation returns dummy legs used to hold LRUD data and then misses off legs at the end of the series because the jTree getChild method in the CaveSurvey class looks up the leg by index from the legs array in a series. The implementation of LRUD data stored for terminal 'to' stations using dummy legs needs to be changed so these are not included in the primary legs array. A unit test for the getChild method should be added with a test case involving a series with LRUD calculated from splays using the leapfrog example case in the test helper class to confirm this has been fixed.
+
+20170330-1 Status: OPEN
+Data model does not support back sights on legs, so passage generation in Survey comes out with duplicated data. Once for a chain of forward legs, and again for a chain of back legs. The terminal station gets zero width and height. See DryWayStream PocketTopo export in Swildons as an example.

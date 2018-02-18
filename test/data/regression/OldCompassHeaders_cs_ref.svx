@@ -1,0 +1,23 @@
+*BEGIN OldCompassHeaders
+
+*EQUATE Footleg1.2 Footleg2.2
+
+*BEGIN Footleg1
+*DATE 2014.02.13
+*CALIBRATE declination -30.0
+
+
+1	2	 8.00	 15.00	  0.00
+*END Footleg1
+
+*BEGIN Footleg2
+*DATE 2014.02.14
+*CALIBRATE declination -45.0
+*CALIBRATE tape 0.50
+*CALIBRATE compass 10.0
+
+
+2	3	10.50	100.00	 36.87
+*END Footleg2
+
+*END OldCompassHeaders

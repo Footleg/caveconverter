@@ -1,0 +1,89 @@
+AWKWARDCHARS
+SURVEY NAME: ABC!
+SURVEY DATE: 1 23 1980  COMMENT:My Survey
+SURVEY TEAM: 
+Dr Footleg
+DECLINATION:    3.00  FORMAT: DDDDUDLRLADNF  CORRECTIONS:  0.00 0.00 0.00  CORRECTIONS2:  0.00 0.00
+
+                FROM                   TO   LENGTH  BEARING      INC     LEFT       UP     DOWN    RIGHT   FLAGS  COMMENTS
+
+              ABC01!               ABC02"    12.00   135.00     4.00     0.00     1.00     0.50     2.00
+              ABC02"               ABC03#    15.00   130.00     3.00     2.00     2.00     0.00     5.00
+              ABC03#               ABC04$    19.00   165.00     2.00     3.00     1.40     0.00     4.00
+              ABC04$               ABC05%    22.00   155.00     1.00     6.00     1.10     0.00     0.00
+              ABC05%               ABC06&    14.00   140.00     0.00     4.00     0.50     0.00     3.00
+              ABC06&               ABC07&    14.00   120.00    -5.00     3.00     0.50     2.20     2.00
+
+AWKWARDCHARS
+SURVEY NAME: DEF+
+SURVEY DATE: 1 24 1980
+SURVEY TEAM:
+Dr Footleg
+DECLINATION:    3.00 FORMAT: DDDDUDLRLADN
+
+    FROM       TO   LENGTH  BEARING     DIP      LEFT      UP      DOWN     RIGHT   FLAGS  COMMENTS
+
+   ABC06&   DEF01'    10.00    50.00     0.00 -9999.00  -9999.00  -9999.00  -9999.00
+   DEF01'   DEF02(    12.00    55.00     4.00    0.00    1.00    0.50    2.00 
+   DEF02(   DEF03)    15.00    50.00     3.00    2.00    2.00    0.00    5.00 
+   DEF03)   DEF04*    19.00    85.00     2.00    3.00    1.40    0.00    4.00 
+   DEF04*   DEF05+    22.00    75.00     1.00    6.00    1.10    0.00    0.00 
+   DEF05+   DEF06,    14.00    60.00     0.00    4.00    0.50    0.00    3.00
+   DEF06,   DEF07/    14.00    40.00     4.00    0.00    0.60    0.20    2.00
+   DEF07/   DEF08é    14.00    50.00    -5.00    3.00    0.50    2.20    2.00
+
+AWKWARDCHARS
+SURVEY NAME: GHI<
+SURVEY DATE: 1 25 1980
+SURVEY TEAM:
+Dr Footleg
+DECLINATION:    3.00 FORMAT: DDDDUDLRLADN
+
+    FROM       TO   LENGTH  BEARING     DIP      LEFT      UP      DOWN     RIGHT   FLAGS  COMMENTS
+
+   DEF07/   GHI01:    10.00    20.00     0.00 -9999.00  -9999.00  -9999.00  -9999.00
+   GHI01:   GHI02;    12.00    28.00     4.00    0.00    1.00    0.50    2.00 
+   GHI02;   GHI03<    15.00    12.00     3.00    2.00    2.00    0.00    5.00 
+   GHI03<   GHI04=    19.00    18.00     2.00    3.00    1.40    0.00    4.00 
+   GHI04=   GHI05>    22.00    29.00     1.00    6.00    1.10    0.00    0.00 
+   GHI05>   GHI06?    14.00    11.00     0.00    4.00    0.50    0.00    3.00
+   GHI06?   GHI07@    16.00     8.00     0.50    0.00    0.60    0.20    2.00
+   GHI07@   GHI08ó    10.00    14.00    -5.00    3.00    0.50    2.20    2.00
+
+AWKWARDCHARS
+SURVEY NAME: JKL-
+SURVEY DATE: 1 26 1980
+SURVEY TEAM:
+Dr Footleg
+DECLINATION:    3.00 FORMAT: DDDDUDLRLADN
+
+    FROM       TO   LENGTH  BEARING     DIP      LEFT      UP      DOWN     RIGHT   FLAGS  COMMENTS
+
+   GHI07@   JKL01[    10.00   320.00     0.00 -9999.00  -9999.00  -9999.00  -9999.00
+   JKL01[   JKL02\    12.00   328.00     4.00    0.00    1.00    0.50    2.00 
+   JKL02\   JKL03]    15.00   312.00     3.00    2.00    2.00    0.00    5.00 
+   JKL03]   JKL04^    19.00   318.00     2.00    3.00    1.40    0.00    4.00 
+   JKL04^   JKL05_    22.00   329.00     1.00    6.00    1.10    0.00    0.00 
+   JKL05_   JKL06`    16.00   322.00     0.50    0.00    0.60    0.20    2.00
+   JKL06`   JKL07-    14.00   311.00     0.00    4.00    0.50    0.00    3.00
+   JKL07-   JKL08ñ    10.00   314.00    -5.00    3.00    0.50    2.20    2.00
+
+AWKWARDCHARS
+SURVEY NAME: MNO£
+SURVEY DATE: 1 27 1980
+SURVEY TEAM:
+Dr Footleg
+DECLINATION:    3.00 FORMAT: DDDDUDLRLADN
+
+    FROM       TO   LENGTH  BEARING     DIP      LEFT      UP      DOWN     RIGHT   FLAGS  COMMENTS
+
+   JKL07-   MNO01{    10.00   270.00     0.00 -9999.00  -9999.00  -9999.00  -9999.00
+   MNO01{   MNO02|    12.00   278.00     4.00    0.00    1.00    0.50    2.00 
+   MNO02|   MNO03}    15.00   262.00     3.00    2.00    2.00    0.00    5.00 
+   MNO03}   MNO04~    19.00   268.00     2.00    3.00    1.40    0.00    4.00 
+   MNO04~   MNO05¬    22.00   279.00     1.00    6.00    1.10    0.00    0.00 
+   MNO05¬   MNO06£    14.00   272.00     0.50    0.00    0.60    0.20    2.00
+   MNO06£   MNO07´    14.00   261.00     0.00    4.00    0.50    0.00    3.00
+   MNO07´   MNO08©    10.00   264.00    -5.00    3.00    0.50    2.20    2.00
+
+
