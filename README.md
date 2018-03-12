@@ -1,6 +1,8 @@
 Cave Converter
 --------------
-Copyright (C) 2009-2017 Paul Fretwell - aka 'Footleg' (drfootleg@gmail.com)
+Copyright (C) 2009-2018 Paul Fretwell - aka 'Footleg'
+
+You can find the lastest code on GitHub: https://github.com/Footleg/caveconverter/
 
 Cave Converter is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,13 +38,14 @@ structure required.
 
 The folder structure should look like this:
 
+```
 <java_dev>
 	cobertura-2.1.1
 		(unpack the contents of cobertura tar file in here)
 	dev
 		CaveConverter_src
 			(contents of CaveConverter_src.zip file)
-
+```
 (Note: The folders 'java_dev', 'dev' and 'CaveConverter_src' can have any names
  you want.)
 
