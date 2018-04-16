@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009-2015 Paul Fretwell - aka 'Footleg' (drfootleg@gmail.com)
+ * Copyright (C) 2018 Paul Fretwell - https://github.com/Footleg/caveconverter
  * 
  * This file is part of Cave Converter.
  * 
@@ -29,7 +29,7 @@ import footleg.cavesurvey.converter.CaveConverter.SurveyDataOutputFormats;
  * Unit test class for {@link footleg.cavesurvey.converter.CaveConverter}
  * 
  * @author      Footleg
- * @version     2015.08.09                                (ISO 8601 YYYY.MM.DD)
+ * @version     2018.04.15                                (ISO 8601 YYYY.MM.DD)
  * @since       1.6                                       (The Java version used)
  */
 public class CaveConverterTest {
@@ -65,7 +65,7 @@ public class CaveConverterTest {
 	}
 
 	/**
-	 * Test method for {@link footleg.cavesurvey.converter.CaveConverter#getFormatName(SurveyDataOutputFormats)}.
+	 * Test method for {@link footleg.cavesurvey.converter.CaveConverter#inputFormatFromFileExtn(String)}.
 	 */
 	@Test
 	public void testInputFormatFromFileExtn() {
@@ -114,4 +114,91 @@ public class CaveConverterTest {
 		assertEquals("Test null returned for unsupported file extn", null, testUnknown);
 	}
 
+	/**
+	 * Test method for {@link footleg.cavesurvey.converter.CaveConverter#decimalNumberStringEnglish(double)}.
+	 */
+	@Test
+	public void testDecimalNumberStringEnglish() {
+		double testNum1 = 0.0;
+		String testFormated1 = CaveConverter.decimalNumberStringEnglish(testNum1);
+		assertEquals("Test zero double returned as 0.0", "0.0", testFormated1);
+				
+		double testNum2 = 1.0;
+		String testFormated2 = CaveConverter.decimalNumberStringEnglish(testNum2);
+		assertEquals("Test whole number double returned as x.y", "1.0", testFormated2);
+
+		double testNum3 = 1.4;
+		String testFormated3 = CaveConverter.decimalNumberStringEnglish(testNum3);
+		assertEquals("Test 1dp double returned as x.y", "1.4", testFormated3);
+
+		double testNum4 = 1.0001;
+		String testFormated4 = CaveConverter.decimalNumberStringEnglish(testNum4);
+		assertEquals("Test whole number when rounded to 2dp double returned as x.y", "1.0", testFormated4);
+
+		double testNum5 = 5.304;
+		String testFormated5 = CaveConverter.decimalNumberStringEnglish(testNum5);
+		assertEquals("Test double number when rounded to 2dp ends with zero returned as x.y", "5.3", testFormated5);
+
+		double testNum6 = 1.006;
+		String testFormated6 = CaveConverter.decimalNumberStringEnglish(testNum6);
+		assertEquals("Test rounded up to 2dp double returned as x.yz", "1.01", testFormated6);
+
+		double testNum7 = 1.23456;
+		String testFormated7 = CaveConverter.decimalNumberStringEnglish(testNum7);
+		assertEquals("Test 5dp double returned as x.yz", "1.23", testFormated7);
+
+		double testNum8 = 12345.6;
+		String testFormated8 = CaveConverter.decimalNumberStringEnglish(testNum8);
+		assertEquals("Test 1dp double returned as xxxxx.yz", "12345.6", testFormated8);
+
+		double testNum9 = 1234.56;
+		String testFormated9 = CaveConverter.decimalNumberStringEnglish(testNum9);
+		assertEquals("Test 2dp double returned as xxxx.yz", "1234.56", testFormated9);
+
+		double testNum10 = 123.456;
+		String testFormated10 = CaveConverter.decimalNumberStringEnglish(testNum10);
+		assertEquals("Test 3dp double returned as xxx.yz", "123.46", testFormated10);
+
+		double testNum11 = -0.0001;
+		String testFormated11 = CaveConverter.decimalNumberStringEnglish(testNum11);
+		assertEquals("Test negative number rounded to zero double returned as -0.0", "-0.0", testFormated11);
+
+		double testNum12 = -4.0;
+		String testFormated12 = CaveConverter.decimalNumberStringEnglish(testNum12);
+		assertEquals("Test negative whole number double returned as -x.y", "-4.0", testFormated12);
+
+		double testNum13 = -1.4;
+		String testFormated13 = CaveConverter.decimalNumberStringEnglish(testNum13);
+		assertEquals("Test negative 1dp double returned as -x.y", "-1.4", testFormated13);
+
+		double testNum14 = -1.0001;
+		String testFormated14 = CaveConverter.decimalNumberStringEnglish(testNum14);
+		assertEquals("Test negative whole number when rounded to 2dp double returned as -x.y", "-1.0", testFormated14);
+
+		double testNum15 = -5.304;
+		String testFormated15 = CaveConverter.decimalNumberStringEnglish(testNum15);
+		assertEquals("Test negative double number when rounded to 2dp ends with zero returned as -x.y", "-5.3", testFormated15);
+
+		double testNum16 = -1.006;
+		String testFormated16 = CaveConverter.decimalNumberStringEnglish(testNum16);
+		assertEquals("Test negative rounded up to 2dp double returned as -x.yz", "-1.01", testFormated16);
+
+		double testNum17 = -1.23456;
+		String testFormated17 = CaveConverter.decimalNumberStringEnglish(testNum17);
+		assertEquals("Test negative 5dp double returned as -x.yz", "-1.23", testFormated17);
+
+		double testNum18 = -12345.6;
+		String testFormated18 = CaveConverter.decimalNumberStringEnglish(testNum18);
+		assertEquals("Test negative 1dp double returned as -xxxxx.yz", "-12345.6", testFormated18);
+
+		double testNum19 = -1234.56;
+		String testFormated19 = CaveConverter.decimalNumberStringEnglish(testNum19);
+		assertEquals("Test negative 2dp double returned as -xxxx.yz", "-1234.56", testFormated19);
+
+		double testNum20 = -123.456;
+		String testFormated20 = CaveConverter.decimalNumberStringEnglish(testNum20);
+		assertEquals("Test negative 3dp double returned as -xxx.yz", "-123.46", testFormated20);
+
+	}
+	
 }

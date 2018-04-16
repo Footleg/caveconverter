@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009-2017 Paul Fretwell - aka 'Footleg' (drfootleg@gmail.com)
+ * Copyright (C) 2018 Paul Fretwell - https://github.com/Footleg/caveconverter
  * 
  * This file is part of Cave Converter.
  * 
@@ -20,11 +20,13 @@ package footleg.cavesurvey.converter;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import footleg.cavesurvey.data.model.CaveSurvey;
@@ -42,7 +44,7 @@ import footleg.cavesurvey.tools.UtilityFunctions;
  * data. It can write toporobot and survex files.
  *  
  * @author      Footleg
- * @version     2017.01.12                                (ISO 8601 YYYY.MM.DD)
+ * @version     2018.04.15                                (ISO 8601 YYYY.MM.DD)
  * @since       1.6                                       (The Java version used)
  * 
  * @to.do
@@ -437,8 +439,8 @@ public class CaveConverter {
 	}
 	
 	/**
-	 * Generates a string from a number with specified number of decimal places and padded with spaces
-	 * to a specified length string
+	 * Generates a string from a number with specified number of decimal places using the English decimal 
+	 * separator (.) and padded with spaces to a specified length string
 	 * @param num Number to convert to string
 	 * @param decPlaces Number of decimal places to represent the number to
 	 * @param padWidth Minimum length of string to return
@@ -449,9 +451,29 @@ public class CaveConverter {
 		for (int i = 0; i < decPlaces; i++) {
 			formatStr += '0';
 		}
-		DecimalFormat formatter = new DecimalFormat(formatStr);
+	    DecimalFormatSymbols decimalSymbols = DecimalFormatSymbols.getInstance();
+	    decimalSymbols.setDecimalSeparator('.');
+		DecimalFormat formatter = new DecimalFormat(formatStr, decimalSymbols);
 		
 		return padString(formatter.format(num), padWidth);
+	}
+	
+	/**
+	 * Generates a string from a number using the English decimal separator (.) and rounded down
+	 * to 2 decimal places if longer. Numbers with less decimal places are not padded with zeros.
+	 * @param num Number to convert to string
+	 * @return Formatted string representation of number
+	 */
+	public static String decimalNumberStringEnglish(double num) {
+		//Create string rounded to 2 decimal places
+		String numberString = String.format(Locale.UK, "%.2f", num);
+		
+		//Remove trailing zero if present
+		if (numberString.charAt( numberString.length() - 1 ) == '0') {
+			numberString = numberString.substring( 0, numberString.length() - 1 );
+		}
+		
+		return numberString;
 	}
 
 	/**
