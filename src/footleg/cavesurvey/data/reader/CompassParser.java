@@ -37,7 +37,7 @@ import footleg.cavesurvey.tools.UtilityFunctions;
  * Parser for Compass format text data files.
  * 
  * @author      Footleg
- * @version     2017.01.09                                (ISO 8601 YYYY.MM.DD)
+ * @version     2021.09.09                                (ISO 8601 YYYY.MM.DD)
  * @since       1.6                                       (The Java version used)
  * 
  */
@@ -108,10 +108,11 @@ public class CompassParser {
 				case 1:
 					//Header lines
 					caveName = dataLine.replace(' ', '_');
-					if ( caveName.compareTo( allSeries.get(0).getSeriesName() ) == 0 ) {
+					if ((dataLine.length() < 12) || ( dataLine.substring(0, 12).compareTo( "SURVEY NAME:" ) != 0 )) {
 						//Repeat of cave name, which we can ignore
+						//(changed to allow any line which is not a SURVEY NAME labelled data line as some files have multiple cave names)
 					}
-					else if ( dataLine.substring(0, 12).compareTo( "SURVEY NAME:" ) == 0 ) {
+					else if ((dataLine.length() > 11) && ( dataLine.substring(0, 12).compareTo( "SURVEY NAME:" ) == 0 )) {
 						//Create series for this survey name
 						String seriesName = dataLine.substring(12).trim();
 						liveSeries = new SurveySeries( seriesName );
@@ -157,19 +158,19 @@ public class CompassParser {
 									state++;
 								}
 								else {
-									throw new ParseException( UtilityFunctions.formatFileParserMsg("Did not find expected 'SURVEY TEAM:' at start of line.", lineNo ), lineNo );
+									throw new ParseException( UtilityFunctions.formatFileParserMsg("Did not find expected 'SURVEY TEAM:' at start of line. Found: " + dataLine, lineNo ), lineNo );
 								}
 							}
 							else {
-								throw new ParseException( UtilityFunctions.formatFileParserMsg("Did not find expected 'COMMENT:' or valid length date string on line.", lineNo ), lineNo );
+								throw new ParseException( UtilityFunctions.formatFileParserMsg("Did not find expected 'COMMENT:' or valid length date string on line. Found: " + dataLine, lineNo ), lineNo );
 							}
 						}
 						else {
-							throw new ParseException( UtilityFunctions.formatFileParserMsg("Did not find expected 'SURVEY DATE:' at start of line.", lineNo ), lineNo );
+							throw new ParseException( UtilityFunctions.formatFileParserMsg("Did not find expected 'SURVEY DATE:' at start of line. Found: " + dataLine, lineNo ), lineNo );
 						}
 					}
 					else {
-						throw new ParseException( UtilityFunctions.formatFileParserMsg("Did not find expected 'SURVEY NAME:' line.", lineNo ), lineNo );
+						throw new ParseException( UtilityFunctions.formatFileParserMsg("Did not find expected 'SURVEY NAME:' line. Found: " + dataLine, lineNo ), lineNo );
 					}
 
 					break;
@@ -445,7 +446,10 @@ public class CompassParser {
 						leg.setComment(comment);
 						
 						//Check leg was found
-						if ( leg.getLength(LengthUnit.Metres) > -1 ) {
+						if (( leg.getLength(LengthUnit.Metres) > -1 )
+							&& ((leg.getFromStn().getName().compareTo(leg.getToStn().getName()) == 0 &&
+								leg.getLength(LengthUnit.Metres) == 0 && leg.getClino(GradientUnit.Degrees) == 0 && 
+								leg.getCompass(BearingUnit.Degrees) == 0) == false) ) {
 							//Set flags for leg
 							leg.setDuplicate(duplicateFlag);
 							leg.setSplay(splayFlag);
@@ -501,6 +505,7 @@ public class CompassParser {
 									//Matching stations found
 									String series1Name = allSeries.get(0).getSeriesName() +  "." + series.getSeriesName();
 									String series2Name = allSeries.get(0).getSeriesName() +  "." + series2.getSeriesName();
+									
 									//Check if equate already added
 									boolean foundNewEquate = true;
 									for ( int idxEquates = 0; idxEquates < equates.size(); idxEquates++ ) {
