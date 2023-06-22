@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009-2017 Paul Fretwell - aka 'Footleg' (drfootleg@gmail.com)
+ * Copyright (C) 2023 Paul Fretwell - https://github.com/Footleg/caveconverter
  * 
  * This file is part of Cave Converter.
  * 
@@ -38,8 +38,8 @@ import footleg.cavesurvey.tools.UtilityFunctions;
  * Parser for PocketTopo Text export files.
  * 
  * @author      Footleg
- * @version     2017.01.09                                (ISO 8601 YYYY.MM.DD)
- * @since       1.6                                       (The Java version used)
+ * @version     2023.06.22                                (ISO 8601 YYYY.MM.DD)
+ * @since       8                                         (The Java version used)
  */
 public class PocketTopoParser {
 	private Logger logger;
@@ -601,6 +601,7 @@ public class PocketTopoParser {
 			}
 			else if ( ( tripIdx == 5 ) || ( commentIdx == 5 ) || ( ( tripIdx == -1 ) && ( commentIdx == -1 ) ) ) {
 				//If trip or comment idx=5, or there is neither a trip or comment then line is a survey leg
+				// logger.logMessage(dataItems.size() + ";" + tripIdx + ";" + commentIdx + ";" + dataItems.get(0) + ";" + dataItems.get(1) + ";" + dataItems.get(2) + ";" + dataItems.get(3) + ";" + dataItems.get(4) + ";" + dataItems.get(5));
 				result.setToStn( dataItems.get(1) );
 				result.setTape( Double.valueOf( dataItems.get(2) ) );
 				result.setCompass( Double.valueOf( dataItems.get(3) ) );
@@ -631,7 +632,7 @@ public class PocketTopoParser {
 	
 	private boolean itemIsTrip( String dataItem ) {
 		boolean isTrip = false;
-		if ( ( dataItem.length() > 2 ) && ( dataItem.length() < 4 ) 
+		if ( ( dataItem.length() > 2 ) 
 				&& ( dataItem.charAt( 0 ) == '[' ) && ( dataItem.charAt( dataItem.length() - 1 ) == ']' ) ) {
 			//Found trip item
 			isTrip = true;
