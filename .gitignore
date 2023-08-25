@@ -27,3 +27,7 @@ hs_err_pid*
 
 # test and buid generated output
 /build/
+
+# private regression tests and data
+/test/data/regression/private/
+/test/footleg/cavesurvey/regression/*PrivateTest.java

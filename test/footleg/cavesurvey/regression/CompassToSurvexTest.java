@@ -88,13 +88,5 @@ public class CompassToSurvexTest {
 				RunFileConverter.defaultCharset );
 		assertEquals("Comparing Short real data to survex file from real Compass data with reference.", DiffFiles.FILES_IDENTICAL, fileCompare);
 	}
-	
-	@Test
-	public void testCompassToSurvexOtterHole() throws ParseException, FileNotFoundException {
-		//Convert Compass file to Survex format data
-		String fileCompare = RunFileConverter.convertCompassToSurvex( "OtterHole", CmdlineSplaysOpt.Default, CmdlineOpt.F, 
-				RunFileConverter.defaultCharset );
-		assertEquals("Comparing Compass data to survex file from Otter Hole survey data.", DiffFiles.FILES_IDENTICAL, fileCompare);
-	}
 
 }

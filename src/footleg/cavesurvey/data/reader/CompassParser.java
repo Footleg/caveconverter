@@ -43,6 +43,7 @@ import footleg.cavesurvey.tools.UtilityFunctions;
  */
 public class CompassParser {
 	private Logger logger;
+	private static double nullReading = -999.0;
 	
 	/**
 	 * Class constructor 
@@ -70,6 +71,10 @@ public class CompassParser {
 		 * 4=data lines
 		 */
 		int state = 0;
+
+		if(surveyFileData.size() == 0) {
+			throw new ParseException("Empty survey data passed to Compass File Parser.", 0);
+		}
 		
 		//Create cave survey object to hold data
 		CaveSurvey allSeries = new CaveSurvey(logger);
@@ -82,7 +87,7 @@ public class CompassParser {
 		boolean ignoreLeg = false;
 		boolean splayFlag = false;
 		boolean surfaceFlag = false;
-		boolean backBearings = false;
+		boolean backSights = false;
 
 		//Loop through all data lines
 		for ( int i=0; i < surveyFileData.size(); i++ ) {
@@ -203,6 +208,11 @@ public class CompassParser {
 						if ( formatPos > 12 ) {
 							declinationEndPos = formatPos;
 							String formatCode = dataLine.substring(formatPos+7,formatEndPos).trim();
+							//If format string is 15 chars, then 14th is Backsights option and 15th is LRUD association
+							//If format string is 13 chars, then 12th is Backsights option and 13th is LRUD association
+							//If format string is 12 chars, then 12th is Backsights option and there is no LRUD association
+							//When there are backsights (option=B) then the header row has columns AZM2 and INC2, which we detect further
+							//down and so set backsights from these, ignoring the format code string here.
 							//TODO Set series default units (once supported in series class)
 							//TODO Set default data order for series (once supported in series class)
 							//TODO Handle LRUD on toStns (currently assumes they are for fromStns)
@@ -247,14 +257,14 @@ public class CompassParser {
 							&& ( headerData[11].compareTo("FLAGS") == 0 )
 							&& ( headerData[12].compareTo("COMMENTS") == 0 ) ) {
 							//Header for data with back bearings
-							backBearings = true;
+							backSights = true;
 							//Ready to read data lines
 							state++;
 						}
 						else if ( ( headerData[9].compareTo("FLAGS") == 0 )
 							&& ( headerData[10].compareTo("COMMENTS") == 0 ) ) {
 							//Header for data without back bearings
-							backBearings = false;
+							backSights = false;
 							//Ready to read data lines
 							state++;
 						}
@@ -288,6 +298,8 @@ public class CompassParser {
 						//Process data line
 						String[] data = UtilityFunctions.cleanAndSplitDataLine(dataLine);
 						SurveyLeg leg = new SurveyLeg();
+						double backBearing = nullReading;
+						double backClino = nullReading;
 						
 						//Create record from the items
 						int index = 0;
@@ -308,47 +320,47 @@ public class CompassParser {
 								leg.setLength( Double.parseDouble( item ), LengthUnit.Feet );
 								break;
 							case 3:
-								if ( item.compareTo("-") == 0 ) {
-									leg.setCompass( 0, BearingUnit.Degrees );
-								}
-								else {
+								// if ( item.compareTo("-") == 0 ) {
+								// 	leg.setCompass( 0, BearingUnit.Degrees );
+								// }
+								// else {
 									leg.setCompass( Double.valueOf( item ), BearingUnit.Degrees );
-								}
+								// }
 								break;
 							case 4:
 								String val = item;
 								
-								//TODO Does compass support all these Survex like clino values?
-								double straightDown = -90;
-								double straightUp = 90;
-								double level = 0;
-								if ( val.compareToIgnoreCase("-V") == 0 ) {
-									leg.setClino( straightDown, GradientUnit.Degrees );
-								}
-								else if ( val.compareToIgnoreCase("down") == 0 ) {
-									leg.setClino( straightDown, GradientUnit.Degrees );
-								}
-								else if ( val.compareToIgnoreCase("d") == 0 ) {
-									leg.setClino( straightDown, GradientUnit.Degrees );
-								}
-								else if ( val.compareToIgnoreCase("+V") == 0 ) {
-									leg.setClino( straightUp, GradientUnit.Degrees );
-								}
-								else if ( val.compareToIgnoreCase("up") == 0 ) {
-									leg.setClino( straightUp, GradientUnit.Degrees );
-								}
-								else if ( val.compareToIgnoreCase("u") == 0 ) {
-									leg.setClino( straightUp, GradientUnit.Degrees );
-								}
-								else if ( val.compareToIgnoreCase("-") == 0 ) {
-									leg.setClino( level, GradientUnit.Degrees );
-								}
-								else if ( val.compareToIgnoreCase("level") == 0 ) {
-									leg.setClino( level, GradientUnit.Degrees );
-								}
-								else {
+								//Compass does not support all these Survex like clino values. So commenting out.
+								// double straightDown = -90;
+								// double straightUp = 90;
+								// double level = 0;
+								// if ( val.compareToIgnoreCase("-V") == 0 ) {
+								// 	leg.setClino( straightDown, GradientUnit.Degrees );
+								// }
+								// else if ( val.compareToIgnoreCase("down") == 0 ) {
+								// 	leg.setClino( straightDown, GradientUnit.Degrees );
+								// }
+								// else if ( val.compareToIgnoreCase("d") == 0 ) {
+								// 	leg.setClino( straightDown, GradientUnit.Degrees );
+								// }
+								// else if ( val.compareToIgnoreCase("+V") == 0 ) {
+								// 	leg.setClino( straightUp, GradientUnit.Degrees );
+								// }
+								// else if ( val.compareToIgnoreCase("up") == 0 ) {
+								// 	leg.setClino( straightUp, GradientUnit.Degrees );
+								// }
+								// else if ( val.compareToIgnoreCase("u") == 0 ) {
+								// 	leg.setClino( straightUp, GradientUnit.Degrees );
+								// }
+								// else if ( val.compareToIgnoreCase("-") == 0 ) {
+								// 	leg.setClino( level, GradientUnit.Degrees );
+								// }
+								// else if ( val.compareToIgnoreCase("level") == 0 ) {
+								// 	leg.setClino( level, GradientUnit.Degrees );
+								// }
+								// else {
 									leg.setClino( Double.valueOf(val), GradientUnit.Degrees );
-								}
+								// }
 								break;
 							case 5:
 							case 6:
@@ -372,15 +384,13 @@ public class CompassParser {
 								}
 								break;
 							case 9:
-								if ( backBearings ) {
-									//TODO Support for back bearings compass reading
-									String backBearing = item;
+								if ( backSights ) {
+									backBearing = Double.parseDouble( item );
 								}
 								break;
 							case 10:
-								if ( backBearings ) {
-									//TODO Support for back bearings clino reading
-									String backClino = item;
+								if ( backSights ) {
+									backClino = Double.parseDouble( item );
 								}
 								break;
 							}
@@ -399,7 +409,7 @@ public class CompassParser {
 						
 						//Determine if any flags or comments data exists on this line
 						int dataEndPos = surveyFileData.get(i).length();
-						if ( backBearings ) {
+						if ( backSights ) {
 							if ( data.length > 11 ) {
 								String firstItem = data[11];
 								dataEndPos = surveyFileData.get(i).indexOf(firstItem);
@@ -426,12 +436,12 @@ public class CompassParser {
 							//Process flags
 							String flags = commentFlagsData.substring(2, commentStartPos - 1);
 							
-							//Handle 'L' which indicates duplicate
+							//Handle 'L' which means exclude from length calculations. Treat as duplicate.
 							if ( flags.indexOf("L") > -1 ) {
 								duplicateFlag = true;
 							}
 
-							//Handle 'X' which indicates duplicate
+							//Handle 'X' which means exclude from all processing
 							if ( flags.indexOf("X") > -1 ) {
 								ignoreLeg = true;
 							}
@@ -456,6 +466,53 @@ public class CompassParser {
 							leg.setSurface(surfaceFlag);
 							//Check if ignore leg flag was set
 							if ( ignoreLeg == false ) {
+								//Check if backsight was found
+								if ( backSights ) {
+									//Was the backsight the only sighting?
+									if ((leg.getCompass(BearingUnit.Degrees) == nullReading || leg.getClino(GradientUnit.Degrees) == nullReading) && 
+										backBearing != nullReading && backClino != nullReading)
+									{
+										//Leg with backsight only, so reverse leg and use backsight readings
+										leg.reverseDirection();
+										leg.setCompass(backBearing, BearingUnit.Degrees);
+										leg.setClino(backClino, GradientUnit.Degrees);
+									}
+									else if (leg.getCompass(BearingUnit.Degrees) != nullReading && leg.getClino(GradientUnit.Degrees) == nullReading && 
+										backBearing == nullReading && backClino != nullReading) 
+									{
+										// Rear sighting for clino, but forward sighting for compass. Just reverse clino sighting
+										leg.setClino(-backClino, GradientUnit.Degrees);
+									}
+									else if (leg.getCompass(BearingUnit.Degrees) == nullReading && leg.getClino(GradientUnit.Degrees) != nullReading && 
+										backBearing != nullReading && backClino == nullReading) 
+									{
+										// Rear sighting for compass, but forward sighting for clino. Reverse leg, apply back bearing then reverse back
+										SurveyLeg revLeg = leg.clone();
+										revLeg.reverseDirection();
+										revLeg.setCompass(backBearing, BearingUnit.Degrees);
+										revLeg.reverseDirection();
+										leg.setCompass(revLeg.getCompass(BearingUnit.Degrees), BearingUnit.Degrees);
+									}
+									else if (backBearing != nullReading && backClino != nullReading) {
+										//Leg with both backsight and foresight, so duplicate it to create the reverse leg
+										SurveyLeg revLeg = leg.clone();
+										revLeg.reverseDirection();
+										revLeg.setCompass(backBearing, BearingUnit.Degrees);
+										revLeg.setClino(backClino, GradientUnit.Degrees);
+										//Add back leg to series
+										//liveSeries.addLeg(revLeg); //Removed this as survex cavern hangs for large caves with back legs.
+										//Alternatively, get average for forward and back sights
+										revLeg.reverseDirection();
+										double[] bearings = new double[2];
+										bearings[0] = leg.getCompass(BearingUnit.Degrees);
+										bearings[1] = revLeg.getCompass(BearingUnit.Degrees);
+										double average = UtilityFunctions.averageCompassBearings(bearings);
+										leg.setCompass(average, BearingUnit.Degrees);
+										average = (leg.getClino(GradientUnit.Degrees) + revLeg.getClino(GradientUnit.Degrees))/2;
+										leg.setClino(average, GradientUnit.Degrees);
+									}
+								}
+
 								//Add leg to series
 								liveSeries.addLeg(leg);
 							}
