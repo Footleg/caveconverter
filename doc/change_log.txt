@@ -1,5 +1,9 @@
 Cave Converter Change Log
 -------------------------
+12 Sep 2023
+- Multiple enhancements to Compass data file parsing, to fix bugs found while testing with some
+  Compass survey projects. This includes supporting backsights properly.
+- Force decimal separator to be . even on OSes where the language locale uses another characater.
 14 Jan 2017
 - Added option to save splays with anonymous 'to stations' in Survex format.
 - Added support for diving data to the data model, Survex reader and Survex writer.

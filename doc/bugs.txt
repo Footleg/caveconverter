@@ -15,11 +15,11 @@ PocketTopo txt export files which contain station names that are numbers without
 20170213-2 Status: UNTESTED
 PocketTopo txt export files can contain fixed stations (e.g.    1041     292006.00    1891849.00    247.00 ) which are not supported in the reader code. These may be ignored or may cause the file not to be read.
 
-20180118-1 Status: OPEN
+20180118-1 Status: FIXED 20230912
 On French language OS computers, the Survex writer uses the comma as a decimal seperator in data files, which are not read by Survex.
 
-20180118-2 Status: OPEN
+20180118-2 Status: FIXED 20230912
 Data read from Compass format files can contain spaces in survey names. These spaces are retained in the names when writing Survex format data, but the resulting files are not valid so Survex does not process them. The spaces need to be replaced with a supported character in Survex output (suggest using underscore).
 
-20180404-1 Status: OPEN
+20180404-1 Status: FIXED 20230912
 The GUI version of the converter defaults to the JAR file folder for saving files, rather than the file which contained the data last read. So when converting from PocketTopo to Survex you have to first browse to the folder containing the txt file in the Open File dialog, and then navigate back to that folder to save the Survex data file somewhere sensible. Suggest options to default the save path to match the last open path used, or to remember the last open and save paths separately so converting lots of files using different input and output directories allows open and save to always point to the last used folder in each context.
