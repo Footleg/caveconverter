@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009-2016 Paul Fretwell - aka 'Footleg' (drfootleg@gmail.com)
+ * Copyright (C) 2023 Paul Fretwell - https://github.com/Footleg/caveconverter
  * 
  * This file is part of Cave Converter.
  * 
@@ -36,8 +36,8 @@ import footleg.cavesurvey.converter.CaveConverter.CmdlineSplaysOpt;
  * this prefix and the suffix '_ref.dxf'.
  *  
  * @author      Footleg
- * @version     2016.12.14                                (ISO 8601 YYYY.MM.DD)
- * @since       1.6                                       (The Java version used)
+ * @version     2023.06.22                                (ISO 8601 YYYY.MM.DD)
+ * @since       8                                         (The Java version used)
  */
 public class CompassToSurvexTest {
 
@@ -81,4 +81,12 @@ public class CompassToSurvexTest {
 		assertEquals("Comparing AwkwardChars survex file from UTF8 Compass with reference.", DiffFiles.FILES_IDENTICAL, fileCompare);
 	}
 	
+	@Test
+	public void testCompassToSurvexShortReal() throws ParseException, FileNotFoundException {
+		//Convert Compass file with minimal length comments and flags to Survex format data
+		String fileCompare = RunFileConverter.convertCompassToSurvex( "ShortRealData", CmdlineSplaysOpt.Default, CmdlineOpt.F, 
+				RunFileConverter.defaultCharset );
+		assertEquals("Comparing Short real data to survex file from real Compass data with reference.", DiffFiles.FILES_IDENTICAL, fileCompare);
+	}
+
 }

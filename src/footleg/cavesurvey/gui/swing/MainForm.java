@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2015-2017 Paul Fretwell - aka 'Footleg' (drfootleg@gmail.com)
+ * Copyright (C) 2018 Paul Fretwell - https://github.com/Footleg/caveconverter
  * 
  * This file is part of Cave Converter.
  * 
@@ -79,7 +79,7 @@ import footleg.cavesurvey.data.reader.SurvexParser;
  * GUI application built on top of CaveConverter library.
  *  
  * @author      Footleg
- * @version     2017.01.10                                (ISO 8601 YYYY.MM.DD)
+ * @version     2018.04.16                                (ISO 8601 YYYY.MM.DD)
  * @since       1.7                                       (The Java version used)
  * 		
  * @to.do
@@ -106,12 +106,14 @@ public class MainForm extends JFrame {
 		private static final String FONTSIZE_PROPERTY = "font.size";
 		private static final String CHARSET_PROPERTY = "character.set";
 		private static final String LOOKANDFEEL = "application.skin";
+		private static final String LASTFILEOPENPATH = "fileopen.path";
 		private Point position;
 		private Dimension size;
 		private String charset;
 		private String fontTypeface;
 		private int fontSize;
 		private String lookAndFeel;
+		private String lastFileOpenPath;
 		
 		/**
 		 * Initialise preferences data to defaults and attempt to load user preferences from properties file
@@ -124,7 +126,8 @@ public class MainForm extends JFrame {
 			fontTypeface = "courier";
 			fontSize = 12;
 			lookAndFeel = "System";
-			
+			lastFileOpenPath = ".";
+					
 		    //Read user preferences from file (if properties file exists)
 			try {
 		        File file = new File(".");
@@ -140,6 +143,7 @@ public class MainForm extends JFrame {
 		        fontTypeface = userPrefs.getString( FONT_PROPERTY );
 		        fontSize = Integer.valueOf( userPrefs.getString( FONTSIZE_PROPERTY ) );
 		        lookAndFeel = userPrefs.getString( LOOKANDFEEL );
+		        lastFileOpenPath = userPrefs.getString( LASTFILEOPENPATH );
 			}
 			catch (Exception e) { 
 				//Ignore errors in reading prefs
@@ -188,9 +192,17 @@ public class MainForm extends JFrame {
 		public String getLookAndFeel() {
 			return lookAndFeel;
 		}
-
+		
 		public void setLookAndFeel(String lookAndFeel) {
 			this.lookAndFeel = lookAndFeel;
+		}
+
+		public String getLastFileOpenPath() {
+			return lastFileOpenPath;
+		}
+
+		public void setLastFileOpenPath(String lastFileOpenPath) {
+			this.lastFileOpenPath = lastFileOpenPath;
 		}
 
 		/**
@@ -207,6 +219,7 @@ public class MainForm extends JFrame {
 			prefsData += FONT_PROPERTY + "=" + getFontTypeface() + CaveConverter.newline;
 			prefsData += FONTSIZE_PROPERTY + "=" + getFontSize() + CaveConverter.newline;
 			prefsData += LOOKANDFEEL + "=" + getLookAndFeel() + CaveConverter.newline;
+			prefsData += LASTFILEOPENPATH + "=" + getLastFileOpenPath() + CaveConverter.newline;
 
 			//Save File
     		FileWriter textWriter = null;
@@ -243,7 +256,7 @@ public class MainForm extends JFrame {
 			super(name, icon);
 			
 	    	//Initialise file open dialog
-			fileOpenDialog = new JFileChooser(".");
+			fileOpenDialog = new JFileChooser( appPrefs.getLastFileOpenPath() );
 			fileOpenDialog.setFileSelectionMode( JFileChooser.FILES_ONLY );
 			fileOpenDialog.addChoosableFileFilter( new FileNameExtensionFilter("Compass Data Files","dat") );
 			fileOpenDialog.addChoosableFileFilter( new FileNameExtensionFilter("DXF Files","dxf") );
@@ -270,6 +283,11 @@ public class MainForm extends JFrame {
 					saveFileAction.setEnabled( true );
 					saveAsFileAction.setEnabled( true );
 					parseInputDataAction.setEnabled( true );
+					//Store the path of opened file
+					String fileOpenPath = fileOpenDialog.getSelectedFile().getPath();
+					fileOpenPath = fileOpenPath.replace("\\", "/");
+					String folderOnlyPath = fileOpenPath.substring( 0, fileOpenPath.lastIndexOf('/') );
+					appPrefs.lastFileOpenPath = folderOnlyPath;
 					//Automatically process the data
 					buildCaveModelFromInputData();
 				}

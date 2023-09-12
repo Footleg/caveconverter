@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009-2017 Paul Fretwell - aka 'Footleg' (drfootleg@gmail.com)
+ * Copyright (C) 2018 Paul Fretwell - https://github.com/Footleg/caveconverter
  * 
  * This file is part of Cave Converter.
  * 
@@ -39,7 +39,7 @@ import footleg.cavesurvey.tools.UtilityFunctions;
  * Writer for Survex file format text data.
  * 
  * @author      Footleg
- * @version     2017.01.10                                (ISO 8601 YYYY.MM.DD)
+ * @version     2018.04.15                                (ISO 8601 YYYY.MM.DD)
  * @since       1.6                                       (The Java version used)
  * 
  * @to.do
@@ -137,16 +137,16 @@ public class SurvexWriter {
 		//Write calibration lines if different to parent series
 		//TODO Output Units for series and calibrations in these units (at same time as measurements in series units)
 		if ( series.getDeclination() != parentSeries.getDeclination() ) {
-			outputData.add( "*CALIBRATE declination " + series.getDeclination() );
+			outputData.add( "*CALIBRATE declination " + CaveConverter.decimalNumberStringEnglish( series.getDeclination() ) );
 		}
 		if ( series.getTapeCalibration(LengthUnit.Metres) != parentSeries.getTapeCalibration(LengthUnit.Metres) ) {
 			outputData.add( "*CALIBRATE tape " + CaveConverter.padNumber( series.getTapeCalibration(LengthUnit.Metres), 2, 0 ) );
 		}
 		if ( series.getCompassCalibration(BearingUnit.Degrees) != parentSeries.getCompassCalibration(BearingUnit.Degrees) ) {
-			outputData.add( "*CALIBRATE compass " + series.getCompassCalibration(BearingUnit.Degrees) );
+			outputData.add( "*CALIBRATE compass " + CaveConverter.decimalNumberStringEnglish( series.getCompassCalibration(BearingUnit.Degrees) ) );
 		}
 		if ( series.getClinoCalibration(GradientUnit.Degrees) != parentSeries.getClinoCalibration(GradientUnit.Degrees) ) {
-			outputData.add( "*CALIBRATE clino " + series.getClinoCalibration(GradientUnit.Degrees) );
+			outputData.add( "*CALIBRATE clino " + CaveConverter.decimalNumberStringEnglish( series.getClinoCalibration(GradientUnit.Degrees) ) );
 		}
 		outputData.add( "" );
 		
@@ -406,8 +406,9 @@ public class SurvexWriter {
 					//Loop twice, to process from and to stations
 					if ( stn.isFixed() == true ) {
 						String fixedStnLine = "*FIX " + substIllegalNameChars( stn.getName() );
-						fixedStnLine += "\t" + stn.getEasting() + "\t" + stn.getNorthing() + "\t" + 
-								stn.getAltitude();
+						fixedStnLine += "\t" + CaveConverter.decimalNumberStringEnglish( stn.getEasting() ) + "\t" + 
+								CaveConverter.decimalNumberStringEnglish( stn.getNorthing() ) + "\t" + 
+								CaveConverter.decimalNumberStringEnglish( stn.getAltitude() );
 						fixedStnsData.add( fixedStnLine );
 					}
 					//After first pass using FromStn, get toStn if there is one for second pass
@@ -607,6 +608,10 @@ public class SurvexWriter {
 			if ( c < 48 ) {
 				//Check for characters with ascii values below '0'
 				switch (c) {
+				case 32:
+					//	32		<space>
+					sub = "_";
+					break;
 				case 33:
 					//	33		!
 					sub = "_ex";
@@ -753,7 +758,6 @@ public class SurvexWriter {
 					}
 				}
 			}
-			//TODO More illegal character mapping required
 			
 			result += sub;
 		}

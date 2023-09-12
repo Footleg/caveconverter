@@ -1,6 +1,6 @@
 Cave Converter
 --------------
-Copyright (C) 2009-2018 Paul Fretwell - aka 'Footleg'
+Copyright (C) 2009-2023 Paul Fretwell - aka 'Footleg'
 
 You can find the lastest code on GitHub: https://github.com/Footleg/caveconverter/
 
@@ -49,7 +49,7 @@ The folder structure should look like this:
 (Note: The folders 'java_dev', 'dev' and 'CaveConverter_src' can have any names
  you want.)
 
-Once the dependencies are in place (and you have Java JDK 7 or later and Apache 
+Once the dependencies are in place (and you have Java JDK 8 or later and Apache 
 Ant 1.8 or later configured in your environment), you can run the following ant 
 commands from a command prompt in the CaveConverter_src folder where you 
 unzipped the source.
@@ -58,7 +58,7 @@ necessary to define the env.JAVA_HOME property in the build.properties file.
 This was not necessary when building on a Windows machine where the system 
 environment variable JAVA_HOME was already pointing to a JDK.
 To build on Debian I added this line to build.properties:
-env.JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/
+env.JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
 To build and run all tests, just type:
  ant
@@ -85,4 +85,7 @@ Note that some internal targets will not work with the source distribution
 as they are related to code in development which is not yet functional :-)
 
 This source package has been put together with the full code needed to build 
-the command line cave converter tool using OpenJDK7
+the command line cave converter tool using OpenJDK8
+
+(Note: The build tools are in the process of being migrated to Gradle and then
+ant will be removed from this project.)
