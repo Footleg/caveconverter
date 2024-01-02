@@ -25,9 +25,12 @@ cobertura.ser
 hs_err_pid*
 /bin/
 
-# test and buid generated output
-/build/
-
 # private regression tests and data
 /test/data/regression/private/
 /test/footleg/cavesurvey/regression/*PrivateTest.java
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
