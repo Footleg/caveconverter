@@ -1,6 +1,6 @@
-Cave Converter
---------------
-Copyright (C) 2009-2023 Paul Fretwell - aka 'Footleg'
+# Cave Converter
+
+Copyright (C) 2009-2024 Paul Fretwell - aka 'Footleg'
 
 You can find the lastest code on GitHub: https://github.com/Footleg/caveconverter/
 
@@ -17,9 +17,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Cave Converter.  If not, see <http://www.gnu.org/licenses/>.
 
--------------------------------------------------------------------------------
-Building from Source
---------------------
+
+## Building from Source
+
 Cave Converter can be built from the Java source code using the provided ant 
 build script. But first you will need to download some dependencies required 
 to build the source, run the unit tests and generate code coverage reports for 
@@ -38,14 +38,15 @@ structure required.
 
 The folder structure should look like this:
 
-```
+```text
 <java_dev>
-	cobertura-2.1.1
-		(unpack the contents of cobertura tar file in here)
-	dev
-		CaveConverter_src
-			(contents of CaveConverter_src.zip file)
+    cobertura-2.1.1
+        (unpack the contents of cobertura tar file in here)
+    dev
+        CaveConverter_src
+            (contents of CaveConverter_src.zip file)
 ```
+
 (Note: The folders 'java_dev', 'dev' and 'CaveConverter_src' can have any names
  you want.)
 
@@ -62,7 +63,7 @@ env.JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
 To build and run all tests, just type:
  ant
- 
+
 To just build the release distribution:
  ant zip
 
@@ -71,16 +72,16 @@ distributable zip file in a dist folder.
 
 To run full unit and regression tests, and generate code coverage reports:
  ant coverage.regressions
- 
+
 To generate the Javadoc:
  ant javadoc
- 
+
 To do a full clean build and generate everything (this is the default target):
  ant all
- 
+
 Other primary ant targets can be listed by running:
  ant -p
- 
+
 Note that some internal targets will not work with the source distribution 
 as they are related to code in development which is not yet functional :-)
 
