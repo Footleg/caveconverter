@@ -18,9 +18,9 @@
  */
 package footleg.cavesurvey.data.model;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import footleg.cavesurvey.data.model.SurveyStation;
 import footleg.cavesurvey.data.model.SurveyStation.FixType;

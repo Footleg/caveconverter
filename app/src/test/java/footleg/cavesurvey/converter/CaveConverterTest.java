@@ -18,19 +18,16 @@
  */
 package footleg.cavesurvey.converter;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
-
-import footleg.cavesurvey.converter.CaveConverter.SurveyDataInputFormats;
-import footleg.cavesurvey.converter.CaveConverter.SurveyDataOutputFormats;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test class for {@link footleg.cavesurvey.converter.CaveConverter}
  * 
  * @author      Footleg
- * @version     2018.04.15                                (ISO 8601 YYYY.MM.DD)
- * @since       1.6                                       (The Java version used)
+ * @version     2024.01.02                                (ISO 8601 YYYY.MM.DD)
+ * @since       1.8                                       (The Java version used)
  */
 public class CaveConverterTest {
 

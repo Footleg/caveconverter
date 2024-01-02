@@ -1,8 +1,8 @@
 package footleg.cavesurvey.data.writer;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import footleg.cavesurvey.converter.CmdLineLogger;
 import footleg.cavesurvey.data.model.CaveSurvey;

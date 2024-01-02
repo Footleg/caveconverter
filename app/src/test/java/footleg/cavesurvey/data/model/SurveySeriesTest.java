@@ -18,12 +18,12 @@
  */
 package footleg.cavesurvey.data.model;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.ParseException;
 import java.util.Date;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import footleg.cavesurvey.converter.CaveConverter.BearingUnit;
 import footleg.cavesurvey.converter.CaveConverter.GradientUnit;

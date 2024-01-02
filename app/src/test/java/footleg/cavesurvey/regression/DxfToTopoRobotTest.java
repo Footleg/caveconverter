@@ -18,12 +18,12 @@
  */
 package footleg.cavesurvey.regression;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import footleg.cavesurvey.converter.CaveConverter.CmdlineOpt;
 import footleg.cavesurvey.converter.CaveConverter.CmdlineSplaysOpt;

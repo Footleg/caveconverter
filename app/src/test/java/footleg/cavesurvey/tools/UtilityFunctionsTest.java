@@ -18,14 +18,14 @@
  */
 package footleg.cavesurvey.tools;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import footleg.cavesurvey.converter.CaveConverter.BearingUnit;
 import footleg.cavesurvey.converter.CaveConverter.GradientUnit;
