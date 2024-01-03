@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009-2013 Paul Fretwell - aka 'Footleg' (drfootleg@gmail.com)
+ * Copyright (C) 2024 Paul Fretwell - https://github.com/Footleg/caveconverter
  * 
  * This file is part of Cave Converter.
  * 
@@ -22,31 +22,30 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import footleg.cavesurvey.data.model.SurveyStation;
 import footleg.cavesurvey.data.model.SurveyStation.FixType;
 
 /**
  * Unit test class for {@link footleg.cavesurvey.data.model.SurveyStation}
  * 
- * @author      Footleg
- * @version     2012.12.26                                (ISO 8601 YYYY.MM.DD)
- * @since       1.6                                       (The Java version used)
+ * @author Footleg
+ * @version 2024.01.03 (ISO 8601 YYYY.MM.DD)
+ * @since 1.8 (The Java version used)
  */
 public class SurveyStationTest {
 
 	@Test
 	public void testSetEntrance() {
 		int stnID = 123;
-		
-		SurveyStation stn = new SurveyStation( stnID );
-		
-		assertFalse( "Station entrance should be false if not set.", stn.isEntrance() );
-		
+
+		SurveyStation stn = new SurveyStation(stnID);
+
+		assertFalse(stn.isEntrance(), "Station entrance should be false if not set.");
+
 		stn.setEntrance(true);
-		assertTrue( "Checking station was set to be an entrance.", stn.isEntrance() );
-		
+		assertTrue(stn.isEntrance(), "Checking station was set to be an entrance.");
+
 		stn.setEntrance(false);
-		assertFalse( "Checking station was reset to not be an entrance", stn.isEntrance() );
+		assertFalse(stn.isEntrance(), "Checking station was reset to not be an entrance");
 	}
 
 	@Test
@@ -58,40 +57,40 @@ public class SurveyStationTest {
 		double easting2 = 123.45;
 		double northing2 = 678.00;
 		double altitude2 = 0.0;
-		
-		SurveyStation stn = new SurveyStation( stnID );
-		
-		assertFalse( "Station should not be fixed by default.", stn.isFixed() );
-		
-		//Set GPS type fix
+
+		SurveyStation stn = new SurveyStation(stnID);
+
+		assertFalse(stn.isFixed(), "Station should not be fixed by default.");
+
+		// Set GPS type fix
 		stn.setFixed(FixType.GPS, easting, northing, altitude);
-		assertTrue( "Checking station was set to be fixed.", stn.isFixed() );
-		
-		assertEquals("Getter for Easting", easting, stn.getEasting(), 0.0 );
-		assertEquals("Getter for Northing", northing, stn.getNorthing(), 0.0 );
-		assertEquals("Getter for Altitude", altitude, stn.getAltitude(), 0.0 );
-		assertEquals("Getter for fix type GPS", FixType.GPS, stn.getFixType() );
-		
-		//Set Other type fix
+		assertTrue(stn.isFixed(), "Checking station was set to be fixed.");
+
+		assertEquals(easting, stn.getEasting(), 0.0, "Getter for Easting");
+		assertEquals(northing, stn.getNorthing(), 0.0, "Getter for Northing");
+		assertEquals(altitude, stn.getAltitude(), 0.0, "Getter for Altitude");
+		assertEquals(FixType.GPS, stn.getFixType(), "Getter for fix type GPS");
+
+		// Set Other type fix
 		stn.setFixed(FixType.OTHER, easting2, northing2, altitude2);
-		assertTrue( "Checking station was set to be fixed.", stn.isFixed() );
-		
-		assertEquals("Getter for Easting", easting2, stn.getEasting(), 0.0 );
-		assertEquals("Getter for Northing", northing2, stn.getNorthing(), 0.0 );
-		assertEquals("Getter for Altitude", altitude2, stn.getAltitude(), 0.0 );
-		assertEquals("Getter for fix type Other", FixType.OTHER, stn.getFixType() );
-		
-		//Clear fix
+		assertTrue(stn.isFixed(), "Checking station was set to be fixed.");
+
+		assertEquals(easting2, stn.getEasting(), 0.0, "Getter for Easting");
+		assertEquals(northing2, stn.getNorthing(), 0.0, "Getter for Northing");
+		assertEquals(altitude2, stn.getAltitude(), 0.0, "Getter for Altitude");
+		assertEquals(FixType.OTHER, stn.getFixType(), "Getter for fix type Other");
+
+		// Clear fix
 		stn.clearFixedStn();
-		assertFalse( "Station fix was cleared", stn.isFixed() );
+		assertFalse(stn.isFixed(), "Station fix was cleared");
 	}
 
 	@Test
 	public void testSetId() {
 		int stnID = 67899035;
-		
-		SurveyStation stn = new SurveyStation( stnID );
-		assertEquals("Getter for Id", stnID, stn.getId() );
+
+		SurveyStation stn = new SurveyStation(stnID);
+		assertEquals(stnID, stn.getId(), "Getter for Id");
 	}
 
 	@Test
@@ -101,34 +100,34 @@ public class SurveyStationTest {
 		int stnID2 = 345;
 		String defaultName2 = "345";
 		String newName = "ABC";
-		
-		SurveyStation stn = new SurveyStation( stnID );
-		
-		//If not set then name should be string of the Id
-		assertEquals("Getter for Name based on Id", defaultName, stn.getName() );
-		
-		//Change ID, check name changes
+
+		SurveyStation stn = new SurveyStation(stnID);
+
+		// If not set then name should be string of the Id
+		assertEquals(defaultName, stn.getName(), "Getter for Name based on Id");
+
+		// Change ID, check name changes
 		stn.setId(stnID2);
-		assertEquals("Getter for Name based on changed Id", defaultName2, stn.getName() );
-		
-		//Set name to something else
+		assertEquals(defaultName2, stn.getName(), "Getter for Name based on changed Id");
+
+		// Set name to something else
 		stn.setName(newName);
-		assertEquals("Getter for Name set explicitly", newName, stn.getName() );
-		
-		//Change ID after name was set, and check name is not changed
+		assertEquals(newName, stn.getName(), "Getter for Name set explicitly");
+
+		// Change ID after name was set, and check name is not changed
 		stn.setId(92364);
-		assertEquals("Getter for Name set explicitly", newName, stn.getName() );
+		assertEquals(newName, stn.getName(), "Getter for Name set explicitly");
 	}
 
 	@Test
 	public void testSetComment() {
 		int stnID = 12;
 		String commentText = "This is a station comment. It is quite long can contains\ra line break.";
-		
-		SurveyStation stn = new SurveyStation( stnID );
-		
+
+		SurveyStation stn = new SurveyStation(stnID);
+
 		stn.setComment(commentText);
-		assertEquals("Getter for Comment", commentText, stn.getComment() );
+		assertEquals(commentText, stn.getComment(), "Getter for Comment");
 	}
 
 	@Test
@@ -140,41 +139,41 @@ public class SurveyStationTest {
 		double northing = 4800789.75;
 		double altitude = 8900.45;
 
-		SurveyStation stn = new SurveyStation( stnID );
+		SurveyStation stn = new SurveyStation(stnID);
 		stn.setName(newName);
 		stn.setComment(commentText);
 		stn.setEntrance(true);
 		stn.setFixed(FixType.GPS, easting, northing, altitude);
-		
+
 		SurveyStation clone = stn.clone();
-		
-		assertEquals( "Station ID from clone", stnID, clone.getId() );
-		assertEquals( "Station Name from clone", newName, clone.getName() );
-		assertEquals( "Station Comment from clone", commentText, clone.getComment() );
-		assertTrue( "Station is entrance from clone", clone.isEntrance() );
-		assertTrue( "Station is fixed from clone", clone.isFixed() );
-		assertEquals( "Station is fix type from clone", FixType.GPS, clone.getFixType() );
-		assertEquals( "Station easting from clone", easting, clone.getEasting(), 0.0 );
-		assertEquals( "Station northing from clone", northing, clone.getNorthing(), 0.0 );
-		assertEquals( "Station altitude from clone", altitude, clone.getAltitude(), 0.0 );
-		
-		//Change values of original station, and check clone was not changed 
-		//(checks clone is not a pointer to the same object)
+
+		assertEquals(stnID, clone.getId(), "Station ID from clone");
+		assertEquals(newName, clone.getName(), "Station Name from clone");
+		assertEquals(commentText, clone.getComment(), "Station Comment from clone");
+		assertTrue(clone.isEntrance(), "Station is entrance from clone");
+		assertTrue(clone.isFixed(), "Station is fixed from clone");
+		assertEquals(FixType.GPS, clone.getFixType(), "Station is fix type from clone");
+		assertEquals(easting, clone.getEasting(), 0.0, "Station easting from clone");
+		assertEquals(northing, clone.getNorthing(), 0.0, "Station northing from clone");
+		assertEquals(altitude, clone.getAltitude(), 0.0, "Station altitude from clone");
+
+		// Change values of original station, and check clone was not changed
+		// (checks clone is not a pointer to the same object)
 		stn.setId(8765);
 		stn.setName("iusdfhbs");
 		stn.setComment("iadrkuKAJ RDFC J JGV JYG BHF HF NJH B CN HJC NGF XB HGF CBNJCFN JFC NJ CF");
 		stn.setEntrance(false);
 		stn.setFixed(FixType.OTHER, 1.2, 3.4, 5.6);
 
-		assertEquals( "Station ID from clone", stnID, clone.getId() );
-		assertEquals( "Station Name from clone", newName, clone.getName() );
-		assertEquals( "Station Comment from clone", commentText, clone.getComment() );
-		assertTrue( "Station is entrance from clone", clone.isEntrance() );
-		assertTrue( "Station is fixed from clone", clone.isFixed() );
-		assertEquals( "Station is fix type from clone", FixType.GPS, clone.getFixType() );
-		assertEquals( "Station easting from clone", easting, clone.getEasting(), 0.0 );
-		assertEquals( "Station northing from clone", northing, clone.getNorthing(), 0.0 );
-		assertEquals( "Station altitude from clone", altitude, clone.getAltitude(), 0.0 );
+		assertEquals(stnID, clone.getId(), "Station ID from clone");
+		assertEquals(newName, clone.getName(), "Station Name from clone");
+		assertEquals(commentText, clone.getComment(), "Station Comment from clone");
+		assertTrue(clone.isEntrance(), "Station is entrance from clone");
+		assertTrue(clone.isFixed(), "Station is fixed from clone");
+		assertEquals(FixType.GPS, clone.getFixType(), "Station is fix type from clone");
+		assertEquals(easting, clone.getEasting(), 0.0, "Station easting from clone");
+		assertEquals(northing, clone.getNorthing(), 0.0, "Station northing from clone");
+		assertEquals(altitude, clone.getAltitude(), 0.0, "Station altitude from clone");
 
 	}
 

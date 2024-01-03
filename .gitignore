@@ -26,8 +26,8 @@ hs_err_pid*
 /bin/
 
 # private regression tests and data
-/test/data/regression/private/
-/test/footleg/cavesurvey/regression/*PrivateTest.java
+/app/src/test/resources/data/regression/private/
+/app/src/test/java/**/*PrivateTest.java
 
 # Ignore Gradle project-specific cache directory
 .gradle
