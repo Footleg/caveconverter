@@ -23,7 +23,9 @@ cobertura.ser
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/bin/
+
+# VSCode Java tools build output
+/app/bin/*
 
 # private regression tests and data
 /app/src/test/resources/data/regression/private/
