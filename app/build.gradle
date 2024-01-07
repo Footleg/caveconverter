@@ -17,6 +17,12 @@ def props = new Properties()
 try {
     props.load(new FileInputStream(rootProject.file("build.properties")))
     println "Build version: " + props.getProperty("build.version")
+    // Creation of regression output dirs as Java test code fails to do so on Linux
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'mkdir', '-p', 'build/generated/datafiles/private'
+        standardOutput = stdout
+    }
 } catch (Exception e) {
     logger.warn("Properties not Found!")
 }
