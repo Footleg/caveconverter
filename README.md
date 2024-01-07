@@ -1,6 +1,6 @@
-Cave Converter
---------------
-Copyright (C) 2009-2023 Paul Fretwell - aka 'Footleg'
+# Cave Converter
+
+Copyright (C) 2009-2024 Paul Fretwell - aka 'Footleg'
 
 You can find the lastest code on GitHub: https://github.com/Footleg/caveconverter/
 
@@ -17,43 +17,24 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Cave Converter.  If not, see <http://www.gnu.org/licenses/>.
 
--------------------------------------------------------------------------------
-Building from Source
---------------------
-Cave Converter can be built from the Java source code using the provided ant 
-build script. But first you will need to download some dependencies required 
-to build the source, run the unit tests and generate code coverage reports for 
-the tests. These dependencies need to be placed in folders with the following 
-names two levels higher in your directory hierarchy than the folder containing 
-the build.xml ant script:
 
-cobertura-2.1.1
+## Building from Source
+Cave Converter can be built from the Java source code using the provided gradle
+build script. I have not checked the gradle wrapper jar into the source 
+repository so in order to build, you will need to download gradle (v8.0 or 
+later) and add it to your path. Then from a terminal window in the root folder
+of the project, run the command: 
+``
+gradle wrapper
+``
 
-Cobertura can be downloaded from http://cobertura.sourceforge.net/
-JUnit 4.11 libraries are included in the Cobertura download so no 
-longer need to be downloaded separately to compile Cave Converter.
+Now you can build using the gradle script:
+``
+gradlew build
+``
 
-The cobertura zip file downloaded can be unzipped to create the directory
-structure required.
-
-The folder structure should look like this:
-
-```
-<java_dev>
-	cobertura-2.1.1
-		(unpack the contents of cobertura tar file in here)
-	dev
-		CaveConverter_src
-			(contents of CaveConverter_src.zip file)
-```
-(Note: The folders 'java_dev', 'dev' and 'CaveConverter_src' can have any names
- you want.)
-
-Once the dependencies are in place (and you have Java JDK 8 or later and Apache 
-Ant 1.8 or later configured in your environment), you can run the following ant 
-commands from a command prompt in the CaveConverter_src folder where you 
-unzipped the source.
-NOTE: To enable the ant script to work on Linux (Debian) with Open-JDK it was
+LEGACY ANT BUILD NOTES:
+To enable the ant script to work on Linux (Debian) with Open-JDK it was
 necessary to define the env.JAVA_HOME property in the build.properties file.
 This was not necessary when building on a Windows machine where the system 
 environment variable JAVA_HOME was already pointing to a JDK.
@@ -62,7 +43,7 @@ env.JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 
 To build and run all tests, just type:
  ant
- 
+
 To just build the release distribution:
  ant zip
 
@@ -71,16 +52,16 @@ distributable zip file in a dist folder.
 
 To run full unit and regression tests, and generate code coverage reports:
  ant coverage.regressions
- 
+
 To generate the Javadoc:
  ant javadoc
- 
+
 To do a full clean build and generate everything (this is the default target):
  ant all
- 
+
 Other primary ant targets can be listed by running:
  ant -p
- 
+
 Note that some internal targets will not work with the source distribution 
 as they are related to code in development which is not yet functional :-)
 

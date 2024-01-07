@@ -1,5 +1,7 @@
 Cave Converter Change Log
 -------------------------
+02 Jan 2024
+- Restructure of project source to use gradle build tools.
 12 Sep 2023
 - Multiple enhancements to Compass data file parsing, to fix bugs found while testing with some
   Compass survey projects. This includes supporting backsights properly.
