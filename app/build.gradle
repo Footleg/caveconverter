@@ -12,6 +12,15 @@ plugins {
     id 'jacoco'
 }
 
+def props = new Properties()
+
+try {
+    props.load(new FileInputStream(rootProject.file("build.properties")))
+    println "Build version: " + props.getProperty("build.version")
+} catch (Exception e) {
+    logger.warn("Properties not Found!")
+}
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -33,4 +42,15 @@ application {
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+jar {
+  archivesBaseName = 'CaveConverter'
+  manifest {
+    attributes('Main-Class': 'footleg.cavesurvey.converter.CaveConverter',
+               'Implementation-Title': props.getProperty("application.title"),
+               'Implementation-Vendor': props.getProperty("application.vendor"),
+               'Implementation-Version': props.getProperty("build.version")
+               ) 
+  }
 }
