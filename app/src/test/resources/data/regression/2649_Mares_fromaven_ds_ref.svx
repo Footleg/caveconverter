@@ -1,19 +1,12 @@
 *BEGIN SurveyFromDXF
 
 *EQUATE SeriesFromLines1.6 SeriesFromLines2.0
-*EQUATE SeriesFromLines2.0 SeriesFromLines1.6
 *EQUATE SeriesFromLines2.3 SeriesFromLines3.0
-*EQUATE SeriesFromLines3.0 SeriesFromLines2.3
 *EQUATE SeriesFromLines3.13 SeriesFromLines5.0
 *EQUATE SeriesFromLines3.14 SeriesFromLines4.0
-*EQUATE SeriesFromLines4.0 SeriesFromLines3.14
-*EQUATE SeriesFromLines5.0 SeriesFromLines3.13
 *EQUATE SeriesFromLines5.4 SeriesFromLines6.0
-*EQUATE SeriesFromLines6.0 SeriesFromLines5.4
 *EQUATE SeriesFromLines6.1 SeriesFromLines7.0
-*EQUATE SeriesFromLines7.0 SeriesFromLines6.1
 *EQUATE SeriesFromLines7.5 SeriesFromLines8.0
-*EQUATE SeriesFromLines8.0 SeriesFromLines7.5
 
 *BEGIN SeriesFromLines1
 

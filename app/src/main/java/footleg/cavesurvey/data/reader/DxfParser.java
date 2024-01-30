@@ -37,8 +37,8 @@ import footleg.cavesurvey.tools.UtilityFunctions;
  * Parser for DXF format text data files.
  * 
  * @author Footleg
- * @version 2017.01.09 (ISO 8601 YYYY.MM.DD)
- * @since 1.6 (The Java version used)
+ * @version 2024.01.30 (ISO 8601 YYYY.MM.DD)
+ * @since 1.8 (The Java version used)
  */
 public class DxfParser {
 	private Date seriesDate;
@@ -48,7 +48,6 @@ public class DxfParser {
 	 * Class constructor
 	 * 
 	 * @param logger Logging class to output information, warning and error messages
-	 *               to
 	 */
 	public DxfParser(Logger logger) {
 		super();
@@ -109,7 +108,9 @@ public class DxfParser {
 		double dLastNorthValue = 0;
 		double dLastElevValue = 0;
 
-		// Range bounds
+		// Range bounds. Used to filter which data to include from the coordinate space
+		// Currently hard coded to include all points (was used for specific job
+		// extracting map data for an area from contour map Autocad files)
 		// TODO Promote these to parameters which can be specified as options
 		int iNorthEdge = 999999999;
 		int iSouthEdge = -999999999;
@@ -137,11 +138,15 @@ public class DxfParser {
 					}
 					break;
 				case stateFindPolyline:
+					// In this state, we are looking for lines matching: POLYLINE, LINE, or TEXT
 					if (dataLine.trim().compareToIgnoreCase("POLYLINE") == 0) {
 						// Found polyline, indicated with header line:
 						// POLYLINE
 						// and ending with:
 						// SEQEND
+
+						// In this state, having found any POLYLINE, the linename is set and the state
+						// changed to stateFindVertex
 
 						// Check next 15 lines looking for AcDbEntity start
 						int iSkipLoop = 1;
@@ -155,7 +160,6 @@ public class DxfParser {
 							dataLine = surveyFileData.get(++i);
 							// Read entity type from next line:
 							dataLine = surveyFileData.get(++i);
-							// if Strings.Left(Trim(dataLine), 4) = "1100" {
 							// Found a contour line entity (they are all 1100x)
 							// Increment line counter
 							iPolylineCount += 1;
@@ -168,12 +172,12 @@ public class DxfParser {
 							state = stateFindVertex;
 							// Reset point counter
 							iPointCount = 0;
-							// }
 						}
 					}
 					// loop through all lines, each indicated with header line:
 					// LINE
 					// and ending after a fixed number of lines
+					// Survex DXF from Aven files have this format
 					else if (dataLine.trim().compareToIgnoreCase("LINE") == 0) {
 						// Found line
 						iPlainlineCount++;
@@ -184,18 +188,12 @@ public class DxfParser {
 							iSkipLoop++;
 						} while ((dataLine.trim().compareToIgnoreCase("AcDbEntity") != 0
 								&& dataLine.trim().compareToIgnoreCase("CentreLine") != 0)
-								&& (iSkipLoop < 4));
-						// Allow anything if 4 lines read
-						boolean allowAnyLineName = false;
-						if (iSkipLoop == 4) {
-							allowAnyLineName = true;
-						}
+								&& (iSkipLoop < 8));
 						// If found it then process
 						if (dataLine.trim().compareToIgnoreCase("AcDbEntity") == 0
-								|| dataLine.trim().compareToIgnoreCase("CentreLine") == 0
-								|| allowAnyLineName == true) {
-							if (dataLine.trim().compareToIgnoreCase("CentreLine") != 0 && allowAnyLineName == false) {
-								// Check next 15 lines looking for AcDbLine start
+								|| dataLine.trim().compareToIgnoreCase("CentreLine") == 0) {
+							if (dataLine.trim().compareToIgnoreCase("CentreLine") != 0) {
+								// Check next 15 lines looking for AcDbLine start when not a Survex DXF export
 								iSkipLoop = 1;
 								do {
 									dataLine = surveyFileData.get(++i);
@@ -204,8 +202,7 @@ public class DxfParser {
 							}
 							// If found it then process
 							if (dataLine.trim().compareToIgnoreCase("AcDbLine") == 0
-									|| (dataLine.trim().compareToIgnoreCase("CentreLine") == 0)
-									|| allowAnyLineName) {
+									|| (dataLine.trim().compareToIgnoreCase("CentreLine") == 0)) {
 								// Check for next line:
 								// 10:
 								dataLine = surveyFileData.get(++i);
@@ -263,15 +260,16 @@ public class DxfParser {
 															iPointCount += 1;
 
 															if (parseMode == parseModeSurveyLegs) {
-																// Add points to line array
-																double[] point = new double[6];
-																point[0] = dEastValue;
-																point[1] = dNorthValue;
-																point[2] = dElevValue;
-																point[3] = dLastEastValue;
-																point[4] = dLastNorthValue;
-																point[5] = dLastElevValue;
-																arLines.add(point);
+																// Add start and end points of line segment to lines
+																// array
+																double[] lineSegment = new double[6];
+																lineSegment[0] = dEastValue;
+																lineSegment[1] = dNorthValue;
+																lineSegment[2] = dElevValue;
+																lineSegment[3] = dLastEastValue;
+																lineSegment[4] = dLastNorthValue;
+																lineSegment[5] = dLastElevValue;
+																arLines.add(lineSegment);
 															}
 														} else {
 															// Record outside specified area
@@ -664,7 +662,7 @@ public class DxfParser {
 
 			// Map points in chain to labels
 			String[] stnLabels = mapLabelsToChainPoints(arSurveyChain, arLabelPoints, arLabels);
-			if (arLabels.size() > 0) {
+			if (arLabels.size() > 0 && stnLabels[0] != null) {
 				mappedLabelsFound = true;
 			}
 
@@ -817,14 +815,18 @@ public class DxfParser {
 					double fixX = srcChain.get(point1Idx)[0];
 					double fixY = srcChain.get(point1Idx)[1];
 					double fixZ = srcChain.get(point1Idx)[2];
-					// Check all chains except self for a matching point
-					for (int chainIdx = 0; chainIdx < allChains.size(); chainIdx++) {
+					// Check all chains from self onwards for a matching point
+					// Only check self for links between different points in chain
+					// Do not check chains earlier than self to avoid adding links twice (forwards
+					// and backwards between same 2 points)
+					for (int chainIdx = seriesIdx; chainIdx < allChains.size(); chainIdx++) {
 						List<double[]> chain = allChains.get(chainIdx);
 						String[] chainLabels = allChainLabels.get(chainIdx);
 						for (int pointIdx = 0; pointIdx < chain.size(); pointIdx++) {
-							if ((fixX == chain.get(pointIdx)[0])
-									&& (fixY == chain.get(pointIdx)[1])
-									&& (fixZ == chain.get(pointIdx)[2])) {
+							double sepX = Math.abs(fixX - chain.get(pointIdx)[0]);
+							double sepY = Math.abs(fixY - chain.get(pointIdx)[1]);
+							double sepZ = Math.abs(fixZ - chain.get(pointIdx)[2]);
+							if ((sepX < 0.02) && (sepY < 0.02) && (sepZ < 0.02)) {
 								// Found matching point
 								boolean addEquate = true;
 								if (chainIdx == seriesIdx) {
@@ -847,15 +849,22 @@ public class DxfParser {
 									}
 									outerSeries.addLink(outerSeries.getInnerSeries(seriesIdx).getSeriesName(), linkStn1,
 											outerSeries.getInnerSeries(chainIdx).getSeriesName(), linkStn2);
-								}
-								// Clear fixed points apart from first one in first series
-								if (seriesIdx > 0) {
-									SurveyStation stn = outerSeries.getInnerSeries(seriesIdx).getLegRaw(0).getFromStn();
-									// double easting = stn.getEasting();
-									// double northing = stn.getNorthing();
-									// double altitude = stn.getAltitude();
-									// stn.setFixed(FixType.NONE, easting, northing, altitude);
-									stn.clearFixedStn();
+									// Clear fixed point from first stn in either series in this link apart from
+									// first one in first series
+									if (linkStn1.getId() == 0) {
+										if (seriesIdx > 0) {
+											SurveyStation stn = outerSeries.getInnerSeries(seriesIdx).getLegRaw(0)
+													.getFromStn();
+											stn.clearFixedStn();
+										}
+									}
+									if (linkStn2.getId() == 0) {
+										if (chainIdx > 0) {
+											SurveyStation stn = outerSeries.getInnerSeries(chainIdx).getLegRaw(0)
+													.getFromStn();
+											stn.clearFixedStn();
+										}
+									}
 								}
 							}
 						}
