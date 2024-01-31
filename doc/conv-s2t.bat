@@ -1,1 +1,1 @@
-java -jar CaveConverter.jar survexfiletoimport.svx toporobotoutput.text s t lrud
+java -cp CaveConverter.jar footleg.cavesurvey.converter.CaveConverter %1 ToporobotfromSurvex.text s t lrud

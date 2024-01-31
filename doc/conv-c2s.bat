@@ -1,1 +1,1 @@
-java -jar CaveConverter.jar compassfile.dat survexfileout.svx c s
+java -cp CaveConverter.jar footleg.cavesurvey.converter.CaveConverter %1 SurvexfilefromCompass.svx c s

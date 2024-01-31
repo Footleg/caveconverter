@@ -50,13 +50,19 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+sourceSets.main.resources { srcDirs = ["src/main/java"]; include "**/gui/swing/images/*.png" }
+
 jar {
-  archivesBaseName = 'CaveConverter'
-  manifest {
-    attributes('Main-Class': 'footleg.cavesurvey.converter.CaveConverter',
-               'Implementation-Title': props.getProperty("application.title"),
-               'Implementation-Vendor': props.getProperty("application.vendor"),
-               'Implementation-Version': props.getProperty("build.version")
-               ) 
-  }
+    archivesBaseName = 'CaveConverter'
+    from('..') {
+        include 'build.properties'
+        rename 'build.properties', 'footleg/cavesurvey/gui/app.properties'
+    }
+    manifest {
+        attributes('Main-Class': 'footleg.cavesurvey.gui.swing.MainForm',
+                'Implementation-Title': props.getProperty("application.title"),
+                'Implementation-Vendor': props.getProperty("application.vendor"),
+                'Implementation-Version': props.getProperty("build.version")
+                ) 
+    }
 }
