@@ -12,18 +12,26 @@
         },
         {
             "type": "java",
-            "name": "CaveConverter",
+            "name": "Convert DXF to Survex",
             "request": "launch",
             "mainClass": "footleg.cavesurvey.converter.CaveConverter",
-            "projectName": "CaveSurveyDataConverter",
+            "projectName": "app",
             "args": "datafile.dxf survexfileout.svx d s"
+        },
+        {
+            "type": "java",
+            "name": "Convert Survex to Toporobot",
+            "request": "launch",
+            "mainClass": "footleg.cavesurvey.converter.CaveConverter",
+            "projectName": "app",
+            "args": "survexfileout.svx datafileout.text s t"
         },
         {
             "type": "java",
             "name": "MainForm",
             "request": "launch",
             "mainClass": "footleg.cavesurvey.gui.swing.MainForm",
-            "projectName": "CaveSurveyDataConverter"
+            "projectName": "app"
         }
     ]
 }

@@ -1,7 +1,9 @@
 Cave Converter Change Log
 -------------------------
-02 Jan 2024
+31 Jan 2024
 - Restructure of project source to use gradle build tools.
+- Now distributed as a single jar file, which defaults to gui mode.
+- Fixed bugs in parsing DXF files. Now better support for reading CAD drawn surveys.
 12 Sep 2023
 - Multiple enhancements to Compass data file parsing, to fix bugs found while testing with some
   Compass survey projects. This includes supporting backsights properly.

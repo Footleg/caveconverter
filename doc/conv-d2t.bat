@@ -1,1 +1,1 @@
-java -jar CaveConverter.jar datafile.dxf toporobotfileout.text d t
+java -cp CaveConverter.jar footleg.cavesurvey.converter.CaveConverter %1 ToporobotfromDXF.text d t

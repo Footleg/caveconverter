@@ -1,1 +1,1 @@
-java -jar CaveConverter.jar datafile.dxf survexfileout.svx d s
+java -cp CaveConverter.jar footleg.cavesurvey.converter.CaveConverter %1 SurvexfilefromDXF.svx d s

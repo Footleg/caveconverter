@@ -1,1 +1,1 @@
-java -jar CaveConverter.jar exportedcave.txt survexfileout.svx p s lrud anonsplays
+java -cp CaveConverter.jar footleg.cavesurvey.converter.CaveConverter %1 SurvexfilefromPocketTopo.svx p s lrud anonsplays
