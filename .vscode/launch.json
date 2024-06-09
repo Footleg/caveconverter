@@ -28,6 +28,14 @@
         },
         {
             "type": "java",
+            "name": "Build LRUD in Survex file",
+            "request": "launch",
+            "mainClass": "footleg.cavesurvey.converter.CaveConverter",
+            "projectName": "app",
+            "args": "survexfilein.svx survexfileout.svx s s lrud"
+        },
+        {
+            "type": "java",
             "name": "MainForm",
             "request": "launch",
             "mainClass": "footleg.cavesurvey.gui.swing.MainForm",
