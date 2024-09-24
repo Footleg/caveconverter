@@ -1079,7 +1079,7 @@ public class DxfParser {
 	 * 
 	 * @param series
 	 */
-	private void CleanSeries(SurveySeries series) {
+	protected void cleanSeries(SurveySeries series) {
 		// Count occurrences of each unique prefix on station names
 		List<String> stnNamePrefixes = new ArrayList<String>();
 		List<Integer> stnNamePrefixCounts = new ArrayList<Integer>();

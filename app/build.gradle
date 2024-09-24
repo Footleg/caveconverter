@@ -12,6 +12,12 @@ plugins {
     id 'jacoco'
 }
 
+java {
+   toolchain {
+       languageVersion = JavaLanguageVersion.of(8)
+   }
+}
+
 def props = new Properties()
 
 try {

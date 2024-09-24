@@ -33,27 +33,29 @@ import javax.swing.tree.TreePath;
 import footleg.cavesurvey.converter.Logger;
 
 /**
- * Class representing a complete cave survey data model. This can consist of 
+ * Class representing a complete cave survey data model. This can consist of
  * one or more cave surveys.
- *  
- * @author      Footleg
- * @version     2017.01.09                                (ISO 8601 YYYY.MM.DD)
- * @since       1.6                                       (The Java version used)
+ * 
+ * @author Footleg
+ * @version 2024.09.24 (ISO 8601 YYYY.MM.DD)
+ * @since 1.8 (The Java version used)
  */
 public class CaveSurvey implements TreeModel {
 	private String surveyName;
 	private List<SurveySeries> survey;
 	private EventListenerList listenerList = new EventListenerList();
 	private Logger logger;
-	
+
 	/**
-	 * Class constructor 
-	 * @param  logger Logging class to output information, warning and error messages to
+	 * Class constructor
+	 * 
+	 * @param logger Logging class to output information, warning and error messages
+	 *               to
 	 */
-	public CaveSurvey( Logger logger ) {
+	public CaveSurvey(Logger logger) {
 		super();
 		this.logger = logger;
-		//Create new list of survey series to hold data
+		// Create new list of survey series to hold data
 		survey = new ArrayList<SurveySeries>();
 	}
 
@@ -83,7 +85,7 @@ public class CaveSurvey implements TreeModel {
 
 	public boolean add(SurveySeries e) {
 		boolean result = survey.add(e);
-		fireTreeStructureChanged( this );
+		fireTreeStructureChanged(this);
 		return result;
 	}
 
@@ -123,95 +125,93 @@ public class CaveSurvey implements TreeModel {
 	 * Generates LRUD data from splays for all legs in all series
 	 */
 	public void generateLRUDfromSplays() {
-		//Loop through all series
+		// Loop through all series
 		ListIterator<SurveySeries> seriesIterator = survey.listIterator();
-		while ( seriesIterator.hasNext() ) {
+		while (seriesIterator.hasNext()) {
 			SurveySeries series = seriesIterator.next();
 
-			//Process series and then recursively call inner series
-			processLRUDfromSplays( series );
+			// Process series and then recursively call inner series
+			processLRUDfromSplays(series);
 		}
 	}
 
 	/**
 	 * Process the legs in this series to generate LRUD data from splays,
 	 * then loop through all inner series recursively to process them too.
+	 * 
 	 * @param series The survey series to process
 	 */
-	private void processLRUDfromSplays( SurveySeries series ) {
-		//Process series and then recursively call inner series
-		series.generateLRUDFromSplays( logger );
-		
-		//TODO Fix the way the option to remove splays used for LRUD is triggered, and don't do it by default.
-		//series.removeSplaysUsedForLRUD(); 
-		
-		//Loop through all inner series
+	private void processLRUDfromSplays(SurveySeries series) {
+		// Process series and then recursively call inner series
+		series.generateLRUDFromSplays(logger);
+
+		// TODO Fix the way the option to remove splays used for LRUD is triggered, and
+		// don't do it by default.
+		// series.removeSplaysUsedForLRUD();
+
+		// Loop through all inner series
 		ListIterator<SurveySeries> seriesIterator = series.getInnerSeriesList().listIterator();
-		while ( seriesIterator.hasNext() ) {
+		while (seriesIterator.hasNext()) {
 			SurveySeries innerSeries = seriesIterator.next();
-			processLRUDfromSplays( innerSeries );
+			processLRUDfromSplays(innerSeries);
 		}
 	}
 
 	/*
 	 * TreeModel interface methods
 	 */
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see javax.swing.tree.TreeModel#getRoot()
 	 */
 	@Override
 	public Object getRoot() {
-		//Root is the cave survey class itself
+		// Root is the cave survey class itself
 		return this;
 	}
 
 	@Override
 	public Object getChild(Object parent, int index) {
-		//Return inner series at the index specified of the parent series passed in
-		if ( parent instanceof CaveSurvey ) {
+		// Return inner series at the index specified of the parent series passed in
+		if (parent instanceof CaveSurvey) {
 			return survey.get(index);
-		}
-		else if ( parent instanceof SurveySeries ) {
-			SurveySeries series = (SurveySeries)parent;
-			//Determine whether this index points to an inner series or a leg
-			if ( index < series.innerSeriesCount() ) {
-				//Return an inner series
+		} else if (parent instanceof SurveySeries) {
+			SurveySeries series = (SurveySeries) parent;
+			// Determine whether this index points to an inner series or a leg
+			if (index < series.innerSeriesCount()) {
+				// Return an inner series
 				return series.getInnerSeries(index);
-			}
-			else {
-				//Return a survey leg
+			} else {
+				// Return a survey leg
 				int legIdx = index - series.innerSeriesCount();
-				return series.getLegRaw( legIdx );
+				return series.getLegRaw(legIdx);
 			}
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
 
 	@Override
 	public int getChildCount(Object parent) {
-		//Return count of inner series plus surveyed legs for the parent series passed in
-		if ( parent instanceof CaveSurvey ) {
+		// Return count of inner series plus surveyed legs for the parent series
+		if (parent instanceof CaveSurvey) {
 			return size();
-		}
-		else if ( parent instanceof SurveySeries ) {
-			SurveySeries series = (SurveySeries)parent;
+		} else if (parent instanceof SurveySeries) {
+			SurveySeries series = (SurveySeries) parent;
 			return series.getInnerSeriesList().size() + series.legCount();
-		}
-		else {
+		} else {
 			return 0;
 		}
 	}
 
 	@Override
 	public boolean isLeaf(Object node) {
-		//Return true if node is a survey leg
+		// Return true if node is a survey leg
 		boolean leaf = false;
-		
-		if ( node instanceof SurveyLeg ) {
+
+		if (node instanceof SurveyLeg) {
 			leaf = true;
 		}
 		return leaf;
@@ -219,41 +219,36 @@ public class CaveSurvey implements TreeModel {
 
 	@Override
 	public void valueForPathChanged(TreePath path, Object newValue) {
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 		Object[] p = path.getPath();
-		Object[] pp = p;
 		Object node;
-		int index;
-		
-		if ( p.length == 1 ) {
-			//Editing root node
-			setSurveyName( (String)newValue );
+
+		if (p.length == 1) {
+			// Editing root node
+			setSurveyName((String) newValue);
 			node = this;
-			index = -1;
-		}
-		else {
-			//Editing a Survey series or leg inside a series
+		} else {
+			// Editing a Survey series or leg inside a series
 			node = p[p.length - 1];
-			SurveySeries parent = (SurveySeries)p[p.length - 2];
-			index = parent.getIndexOfChild( node );
-			//EDIT HERE
-			if ( node instanceof SurveySeries ) {
-				((SurveySeries) node).setSeriesName( (String)newValue );
+			// SurveySeries parent = (SurveySeries)p[p.length - 2];
+
+			if (node instanceof SurveySeries) {
+				((SurveySeries) node).setSeriesName((String) newValue);
 			}
 		}
-		
-//		int[] ci = new int[] { index };
-//		Object[] cc = new Object[] { node };
-//		fireTreeNodesChanged();
+
+		// int[] ci = new int[] { index };
+		// Object[] cc = new Object[] { node };
+		// fireTreeNodesChanged();
 	}
 
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
-		//Look up index of the specified child class instance in the specified parent instance
-		if ( parent instanceof SurveySeries ) {
-			return ((SurveySeries)parent).getIndexOfChild( child );
-		}
-		else {
+		// Look up index of the specified child class instance in the specified parent
+		// instance
+		if (parent instanceof SurveySeries) {
+			return ((SurveySeries) parent).getIndexOfChild(child);
+		} else {
 			return -1;
 		}
 	}
@@ -276,12 +271,14 @@ public class CaveSurvey implements TreeModel {
 	}
 
 	/**
-	 * Provides a string representation of a cave survey to display in a tree view of the data model
-	 * @return String representation of Cave Survey class 
+	 * Provides a string representation of a cave survey to display in a tree view
+	 * of the data model
+	 * 
+	 * @return String representation of Cave Survey class
 	 */
 	public String toString() {
 		String text = getSurveyName();
-		if ( ( text == null ) || ( text.equals("") ) ) {
+		if ((text == null) || (text.equals(""))) {
 			text = "Cave Survey";
 		}
 		return text;
