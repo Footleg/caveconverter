@@ -197,72 +197,76 @@ public class PocketTopoParser {
 				// Process data
 				switch (state) {
 					case 0: // Header line
-						// My Cave (m, 360)
-						// Check for triple space separator with bracket
-						int pos = dataLine.indexOf("   (");
-						if (pos > 0) {
-							String part1 = dataLine.substring(0, pos);
-							String part2 = dataLine.substring(pos + 3);
-							if (part2.compareTo("(m, 360)") != 0) {
-								// Not a valid header
-								ParseException ex = new ParseException(
-										"Invalid file header. Unsupported units: " + part2, lineNo);
-								throw ex;
-							} else {
-								// Take cave name from header, and create a new series for the cave
-								caveName = part1.replace(' ', '_');
-								outerSeries = new SurveySeries(caveName);
-								surveyData.add(outerSeries);
-								logger.logMessage("Cave name: " + caveName);
+						if (dataLine != null) {
+							// My Cave (m, 360)
+							// Check for triple space separator with bracket
+							int pos = dataLine.indexOf("   (");
+							if (pos > 0) {
+								String part1 = dataLine.substring(0, pos);
+								String part2 = dataLine.substring(pos + 3);
+								if (part2.compareTo("(m, 360)") != 0) {
+									// Not a valid header
+									ParseException ex = new ParseException(
+											"Invalid file header. Unsupported units: " + part2, lineNo);
+									throw ex;
+								} else {
+									// Take cave name from header, and create a new series for the cave
+									caveName = part1.replace(' ', '_');
+									outerSeries = new SurveySeries(caveName);
+									surveyData.add(outerSeries);
+									logger.logMessage("Cave name: " + caveName);
+								}
 							}
-						}
 
-						state = 1;
-						break;
+							state = 1;
+							break;
+						}
 					case 1: // Trip settings in Header
-						if (dataLine.substring(0, 1).compareTo("[") == 0) {
-							// Trip settings
-							List<String> tripData = UtilityFunctions.parseDataStringIntoDataItems(dataLine);
-							// Copy into string array as rest of code uses a simple string array to store
-							// trip details
-							String[] trip = new String[tripData.size()];
-							if (tripData.size() >= 3) {
-								if (tripData.size() <= 4) {
-									// Write first 3 items into trip data record
-									for (int i = 0; i < tripData.size(); i++) {
-										trip[i] = tripData.get(i);
+						if (dataLine != null) {
+							if (dataLine.substring(0, 1).compareTo("[") == 0) {
+								// Trip settings
+								List<String> tripData = UtilityFunctions.parseDataStringIntoDataItems(dataLine);
+								// Copy into string array as rest of code uses a simple string array to store
+								// trip details
+								String[] trip = new String[tripData.size()];
+								if (tripData.size() >= 3) {
+									if (tripData.size() <= 4) {
+										// Write first 3 items into trip data record
+										for (int i = 0; i < tripData.size(); i++) {
+											trip[i] = tripData.get(i);
+										}
+									} else {
+										// Invalid trip line (more than 4 items)
+										ParseException ex = new ParseException(
+												"Invalid file header. Trip data contain more than 4 items in line: "
+														+ dataLine,
+												lineNo);
+										throw ex;
 									}
 								} else {
-									// Invalid trip line (more than 4 items)
+									// Invalid trip line (less than 3 items)
 									ParseException ex = new ParseException(
-											"Invalid file header. Trip data contain more than 4 items in line: "
+											"Invalid file header. Trip data does not contain at least 3 items in line: "
 													+ dataLine,
 											lineNo);
 									throw ex;
 								}
+								// Remove colon from trip code
+								if (trip[0].charAt(trip[0].length() - 1) == ':') {
+									trip[0] = trip[0].substring(0, trip[0].length() - 1);
+								} else {
+									// Invalid trip code
+									ParseException ex = new ParseException("Invalid file header. Unexpected trip code: "
+											+ trip[0] + " in line: " + dataLine, lineNo);
+									throw ex;
+								}
+								trips.add(trip);
+								logger.logMessage("Trip settings: " + trip[0] + " " + trip[1] + " " + trip[2]);
+								break;
 							} else {
-								// Invalid trip line (less than 3 items)
-								ParseException ex = new ParseException(
-										"Invalid file header. Trip data does not contain at least 3 items in line: "
-												+ dataLine,
-										lineNo);
-								throw ex;
+								// Start of legs, so don't break, just update state
+								state = 2;
 							}
-							// Remove colon from trip code
-							if (trip[0].charAt(trip[0].length() - 1) == ':') {
-								trip[0] = trip[0].substring(0, trip[0].length() - 1);
-							} else {
-								// Invalid trip code
-								ParseException ex = new ParseException("Invalid file header. Unexpected trip code: "
-										+ trip[0] + " in line: " + dataLine, lineNo);
-								throw ex;
-							}
-							trips.add(trip);
-							logger.logMessage("Trip settings: " + trip[0] + " " + trip[1] + " " + trip[2]);
-							break;
-						} else {
-							// Start of legs, so don't break, just update state
-							state = 2;
 						}
 					case 2: // Data lines
 						// Create temporary survey leg to parse the data line into
@@ -272,35 +276,46 @@ public class PocketTopoParser {
 						TopoDataLine data = null;
 						// Process data line if not at end of file
 						if (dataLine != null) {
-							// logger.logMessage("Data line " + CaveConverter.padNumber(lineNo, 4) + ": " +
-							// dataLine);
-							// Parse items into Topoline object
-							data = parseDataLine(UtilityFunctions.parseDataStringIntoDataItems(dataLine));
-							// Skip blank or all whitespace lines
-							if (data.getLineType() > 0) {
-								// Add fields in common to all types of data line
-								int[] seriesStn = splitSeriesFromStn(data.getFromStn());
-								seriesNo = seriesStn[0];
-								shot.setFromStn(new SurveyStation(seriesStn[1]));
-								shot.setLength(data.getTape(), LengthUnit.Metres);
-								shot.setCompass(data.getCompass(), BearingUnit.Degrees);
-								shot.setClino(data.getClino(), GradientUnit.Degrees);
-								shot.setComment(data.getComment());
-								trip = data.getTrip();
-								if ((data.getLineType() == LINE_TYPE_LEG) || (data.getLineType() == LINE_TYPE_EQUATE)) {
-									// Survey Leg or equate also have a To Stn
-									int[] seriesStn2 = splitSeriesFromStn(data.getToStn());
-									shot.setToStn(new SurveyStation(seriesStn2[1]));
+							if (outerSeries != null) {
+								// logger.logMessage("Data line " + CaveConverter.padNumber(lineNo, 4) + ": " +
+								// dataLine);
+								// Parse items into Topoline object
+								data = parseDataLine(UtilityFunctions.parseDataStringIntoDataItems(dataLine));
+								// Skip blank or all whitespace lines
+								if (data.getLineType() > 0) {
+									// Add fields in common to all types of data line
+									int[] seriesStn = splitSeriesFromStn(data.getFromStn());
+									seriesNo = seriesStn[0];
+									shot.setFromStn(new SurveyStation(seriesStn[1]));
+									shot.setLength(data.getTape(), LengthUnit.Metres);
+									shot.setCompass(data.getCompass(), BearingUnit.Degrees);
+									shot.setClino(data.getClino(), GradientUnit.Degrees);
+									shot.setComment(data.getComment());
+									trip = data.getTrip();
+									if ((data.getLineType() == LINE_TYPE_LEG)
+											|| (data.getLineType() == LINE_TYPE_EQUATE)) {
+										// Survey Leg or equate also have a To Stn
+										int[] seriesStn2 = splitSeriesFromStn(data.getToStn());
+										shot.setToStn(new SurveyStation(seriesStn2[1]));
 
-									// Check whether both stations are in same series
-									if (seriesNo != seriesStn2[0]) {
-										if (data.getLineType() != LINE_TYPE_EQUATE) {
-											// Leg changes series. Only allowed for equates.
-											ParseException ex = new ParseException(
-													"Legs linking different series must be zero length.", lineNo);
-											throw ex;
-										} else {
-											// Series equate
+										// Check whether both stations are in same series
+										if (seriesNo != seriesStn2[0]) {
+											if (data.getLineType() != LINE_TYPE_EQUATE) {
+												// Leg changes series. Only allowed for equates.
+												ParseException ex = new ParseException(
+														"Legs linking different series must be zero length.", lineNo);
+												throw ex;
+											} else {
+												// Series equate
+												Equate equate = new Equate(outerSeries.getSeriesName() + "." + seriesNo,
+														shot.getFromStn().getName(),
+														outerSeries.getSeriesName() + "." + seriesStn2[0],
+														shot.getToStn().getName());
+												// Add to cache
+												equates.add(equate);
+											}
+										} else if (data.getLineType() == LINE_TYPE_EQUATE) {
+											// Equate within series
 											Equate equate = new Equate(outerSeries.getSeriesName() + "." + seriesNo,
 													shot.getFromStn().getName(),
 													outerSeries.getSeriesName() + "." + seriesStn2[0],
@@ -308,20 +323,12 @@ public class PocketTopoParser {
 											// Add to cache
 											equates.add(equate);
 										}
-									} else if (data.getLineType() == LINE_TYPE_EQUATE) {
-										// Equate within series
-										Equate equate = new Equate(outerSeries.getSeriesName() + "." + seriesNo,
-												shot.getFromStn().getName(),
-												outerSeries.getSeriesName() + "." + seriesStn2[0],
-												shot.getToStn().getName());
-										// Add to cache
-										equates.add(equate);
-									}
 
-								} else {
-									// Splays do not have a to station, but the code relies on their being
-									// a dummy station, so create one with id = -1
-									shot.setToStn(new SurveyStation(-1));
+									} else {
+										// Splays do not have a to station, but the code relies on their being
+										// a dummy station, so create one with id = -1
+										shot.setToStn(new SurveyStation(-1));
+									}
 								}
 							}
 						} else {
@@ -334,7 +341,7 @@ public class PocketTopoParser {
 																				// processed
 						}
 						// Process shot if not an equate
-						if (shot.getLength(LengthUnit.Metres) > 0) {
+						if (data != null && outerSeries != null && shot.getLength(LengthUnit.Metres) > 0) {
 							/**
 							 * Check if this data is part of same leg already being processed.
 							 * If the start station is different to the last one, or there is
@@ -443,33 +450,35 @@ public class PocketTopoParser {
 								}
 
 								// Process Splays for this leg
-								int stnSplayCount = 0;
-								String lastSplayFromStn = "";
-								for (int i = 0; i < splayShots.size(); i++) {
-									// Need to increment splay count for number of splays already added to series
-									// from this station
-									// unless we already know this due to last splay being from the same station
-									if ((i == 0) || (lastSplayFromStn
-											.equals(splayShots.get(i).getFromStn().getName()) == false)) {
-										// Count previous splays matching this fromStn in series
-										stnSplayCount = 0;
-										for (int legIdx = 0; legIdx < series.legCount(); legIdx++) {
-											SurveyLeg chkLeg = series.getLegRaw(legIdx);
-											if ((chkLeg.isSplay())
-													&& (chkLeg.getFromStn().getName()
-															.equals(splayShots.get(i).getFromStn().getName()))) {
-												stnSplayCount++;
+								if (series != null) {
+									int stnSplayCount = 0;
+									String lastSplayFromStn = "";
+									for (int i = 0; i < splayShots.size(); i++) {
+										// Need to increment splay count for number of splays already added to series
+										// from this station
+										// unless we already know this due to last splay being from the same station
+										if ((i == 0) || (lastSplayFromStn
+												.equals(splayShots.get(i).getFromStn().getName()) == false)) {
+											// Count previous splays matching this fromStn in series
+											stnSplayCount = 0;
+											for (int legIdx = 0; legIdx < series.legCount(); legIdx++) {
+												SurveyLeg chkLeg = series.getLegRaw(legIdx);
+												if ((chkLeg.isSplay())
+														&& (chkLeg.getFromStn().getName()
+																.equals(splayShots.get(i).getFromStn().getName()))) {
+													stnSplayCount++;
+												}
 											}
 										}
+										// Add shot as a splay
+										stnSplayCount++;
+										addSplayShot(series, splayShots.get(i), stnSplayCount);
 									}
-									// Add shot as a splay
-									stnSplayCount++;
-									addSplayShot(series, splayShots.get(i), stnSplayCount);
-								}
 
-								// Add master leg to series unless a dummy leg (will have negative length)
-								if (masterLeg.getLength(LengthUnit.Metres) >= 0) {
-									series.addLeg(masterLeg);
+									// Add master leg to series unless a dummy leg (will have negative length)
+									if (masterLeg.getLength(LengthUnit.Metres) >= 0) {
+										series.addLeg(masterLeg);
+									}
 								}
 
 								// Clear caches

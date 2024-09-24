@@ -49,7 +49,6 @@ public class CompassParser {
 	 * Class constructor
 	 * 
 	 * @param logger Logging class to output information, warning and error messages
-	 *               to
 	 */
 	public CompassParser(Logger logger) {
 		super();
@@ -160,7 +159,7 @@ public class CompassParser {
 									if (surveyTeam1.substring(0, 12).compareTo("SURVEY TEAM:") == 0) {
 										i++;
 										lineNo = i + 1;
-										String surveyTeam2 = surveyFileData.get(i).trim();
+										// String surveyTeam2 = surveyFileData.get(i).trim();
 										// TODO Store team details in survey series
 
 										// Header section done
@@ -192,31 +191,31 @@ public class CompassParser {
 						break;
 					case 2:
 						// calibration data
-						if (dataLine.substring(0, 12).compareTo("DECLINATION:") == 0) {
+						if (liveSeries != null && dataLine.substring(0, 12).compareTo("DECLINATION:") == 0) {
 							int formatPos = dataLine.indexOf("FORMAT:");
-							int formatEndPos = dataLine.length();
 							int corrections1Pos = dataLine.indexOf("CORRECTIONS:");
 							int corrections1EndPos = dataLine.length();
-							int corrections2Pos = dataLine.indexOf("CORRECTIONS2:");
-							int corrections2EndPos = dataLine.length();
+							// int corrections2Pos = dataLine.indexOf("CORRECTIONS2:");
+							// int corrections2EndPos = dataLine.length();
 							int declinationEndPos = dataLine.length();
-							// Determine end positions of data items
-							if (corrections2Pos > 12) {
-								corrections1EndPos = corrections2Pos;
-								if (corrections1Pos > 12) {
-									formatEndPos = corrections1Pos;
-								} else {
-									formatEndPos = corrections2Pos;
-								}
-							} else {
-								if (corrections1Pos > 12) {
-									formatEndPos = corrections1Pos;
-								}
-							}
+							// int formatEndPos = dataLine.length();
+							// // Determine end positions of data items
+							// if (corrections2Pos > 12) {
+							// corrections1EndPos = corrections2Pos;
+							// if (corrections1Pos > 12) {
+							// formatEndPos = corrections1Pos;
+							// } else {
+							// formatEndPos = corrections2Pos;
+							// }
+							// } else {
+							// if (corrections1Pos > 12) {
+							// formatEndPos = corrections1Pos;
+							// }
+							// }
 							// Process optional file format code
 							if (formatPos > 12) {
 								declinationEndPos = formatPos;
-								String formatCode = dataLine.substring(formatPos + 7, formatEndPos).trim();
+								// String formatCode = dataLine.substring(formatPos + 7, formatEndPos).trim();
 								// If format string is 15 chars, then 14th is Backsights option and 15th is LRUD
 								// association
 								// If format string is 13 chars, then 12th is Backsights option and 13th is LRUD
@@ -243,12 +242,14 @@ public class CompassParser {
 								liveSeries.setTapeCalibration(-Double.parseDouble(data[2]), LengthUnit.Feet);
 							}
 							// Process optional corrections2
-							if (corrections2Pos > 12) {
-								String corrections2 = dataLine.substring(corrections2Pos + 13, corrections2EndPos)
-										.trim();
-								String[] data = UtilityFunctions.cleanAndSplitDataLine(corrections2);
-								// TODO Handle corrections for second set of instruments used for back bearings
-							}
+							// if (corrections2Pos > 12) {
+							// String corrections2 = dataLine.substring(corrections2Pos + 13,
+							// corrections2EndPos)
+							// .trim();
+							// String[] data = UtilityFunctions.cleanAndSplitDataLine(corrections2);
+							// // TODO Handle corrections for second set of instruments used for back
+							// bearings
+							// }
 							// Declination line done
 							state++;
 						} else {
@@ -529,7 +530,9 @@ public class CompassParser {
 									}
 
 									// Add leg to series
-									liveSeries.addLeg(leg);
+									if (liveSeries != null) {
+										liveSeries.addLeg(leg);
+									}
 								}
 							}
 						}

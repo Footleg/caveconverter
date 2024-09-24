@@ -195,8 +195,7 @@ public class CaveSurvey implements TreeModel {
 
 	@Override
 	public int getChildCount(Object parent) {
-		// Return count of inner series plus surveyed legs for the parent series passed
-		// in
+		// Return count of inner series plus surveyed legs for the parent series
 		if (parent instanceof CaveSurvey) {
 			return size();
 		} else if (parent instanceof SurveySeries) {
@@ -220,23 +219,19 @@ public class CaveSurvey implements TreeModel {
 
 	@Override
 	public void valueForPathChanged(TreePath path, Object newValue) {
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 		Object[] p = path.getPath();
-		Object[] pp = p;
 		Object node;
-		int index;
 
 		if (p.length == 1) {
 			// Editing root node
 			setSurveyName((String) newValue);
 			node = this;
-			index = -1;
 		} else {
 			// Editing a Survey series or leg inside a series
 			node = p[p.length - 1];
-			SurveySeries parent = (SurveySeries) p[p.length - 2];
-			index = parent.getIndexOfChild(node);
-			// EDIT HERE
+			// SurveySeries parent = (SurveySeries)p[p.length - 2];
+
 			if (node instanceof SurveySeries) {
 				((SurveySeries) node).setSeriesName((String) newValue);
 			}

@@ -175,41 +175,41 @@ public class MainForm extends JFrame {
 			return charset;
 		}
 
-		public void setCharset(String charset) {
-			this.charset = charset;
-		}
+		// public void setCharset(String charset) {
+		// this.charset = charset;
+		// }
 
 		public String getFontTypeface() {
 			return fontTypeface;
 		}
 
-		public void setFontTypeface(String fontTypeface) {
-			this.fontTypeface = fontTypeface;
-		}
+		// public void setFontTypeface(String fontTypeface) {
+		// this.fontTypeface = fontTypeface;
+		// }
 
 		public int getFontSize() {
 			return fontSize;
 		}
 
-		public void setFontSize(int fontSize) {
-			this.fontSize = fontSize;
-		}
+		// public void setFontSize(int fontSize) {
+		// this.fontSize = fontSize;
+		// }
 
 		public String getLookAndFeel() {
 			return lookAndFeel;
 		}
 
-		public void setLookAndFeel(String lookAndFeel) {
-			this.lookAndFeel = lookAndFeel;
-		}
+		// public void setLookAndFeel(String lookAndFeel) {
+		// this.lookAndFeel = lookAndFeel;
+		// }
 
 		public String getLastFileOpenPath() {
 			return lastFileOpenPath;
 		}
 
-		public void setLastFileOpenPath(String lastFileOpenPath) {
-			this.lastFileOpenPath = lastFileOpenPath;
-		}
+		// public void setLastFileOpenPath(String lastFileOpenPath) {
+		// this.lastFileOpenPath = lastFileOpenPath;
+		// }
 
 		/**
 		 * Write application preference data to a properties file

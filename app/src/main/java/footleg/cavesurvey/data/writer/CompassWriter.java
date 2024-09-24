@@ -49,7 +49,8 @@ public class CompassWriter {
 	/**
 	 * Generates Compass format data from a cave survey
 	 * 
-	 * THIS CLASS IS NOT FULLY IMPLEMENTED YET AND WILL NOT GENERATE VALID DATA
+	 * TODO: Compass Writer CLASS IS NOT FULLY IMPLEMENTED YET AND WILL NOT GENERATE
+	 * VALID DATA
 	 * 
 	 * @param surveyData The cave survey model to generate Compass data for
 	 * @return Text lines of Compass format data
@@ -297,6 +298,9 @@ public class CompassWriter {
 		// Close the cave name
 		outputData.add("*END " + caveName);
 
+		// Use the logger just to stop the compiler warning that it is never used
+		logger.logMessage("Finished writing Compass file (it won't be valid as this class is still in development).");
+
 		return outputData;
 	}
 
@@ -306,12 +310,12 @@ public class CompassWriter {
 	 * @param seriesIdx
 	 * @return short (4 character) name for series
 	 */
-	private String getShortSeriesName(int seriesIdx) {
+	protected String getShortSeriesName(int seriesIdx) {
 		return shortNames.get(seriesIdx);
 	}
 
 	/**
-	 * Looks for short series name in array of names used
+	 * Determines if a name has already been used for a short series name
 	 * 
 	 * @param name
 	 * @return true if name has already been used for another series

@@ -387,7 +387,7 @@ public class CaveConverter {
 		}
 
 		// Generate LRUD data if required
-		if (generateLRUD) {
+		if (generateLRUD && surveyData != null) {
 			logger.logMessage("Generating LRUD data from splays...");
 			surveyData.generateLRUDfromSplays();
 		}
@@ -429,7 +429,7 @@ public class CaveConverter {
 		}
 
 		// Write output file
-		if (outputData.size() > 0) {
+		if (outputData != null && outputData.size() > 0) {
 			String outputFilePath = filePath + outputFilename;
 			logger.logMessage("Writing output file: " + outputFilePath);
 			String error = UtilityFunctions.writeTextFile(outputData, outputFilePath, charSetEncoding);
