@@ -732,7 +732,12 @@ public class SurvexParser {
 								if (blockProps.noSurvey || leg.getLength(LengthUnit.Metres) > -1) {
 									// Set flags for leg
 									leg.setDuplicate(blockProps.duplicateFlag);
-									leg.setSplay(blockProps.splayFlag);
+									if (leg.getToStn().getName().compareTo("-") == 0) {
+										// Legs to anonymous stations are always treated as splays
+										leg.setSplay(true);
+									} else {
+										leg.setSplay(blockProps.splayFlag);
+									}
 									leg.setSurface(blockProps.surfaceFlag);
 									// Add leg to series
 									liveSeries.addLeg(leg);
